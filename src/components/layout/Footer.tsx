@@ -15,7 +15,7 @@ const Footer: React.FC<FooterProps> = ({
                 <div className="flex justify-center items-center">
                     {/* Simple copyright section */}
                     <div className="text-center">
-                        <p>&copy; {copyrightYear} {appName}. All rights reserved.</p>
+                        <p>&copy; {copyrightYear} Fret Clever. All rights reserved.</p>
                     </div>
                 </div>
             </div>
