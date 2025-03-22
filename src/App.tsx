@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { useState, useEffect } from 'react';
 import './App.css';
 import ResponsiveFretboard from './components/core/ResponsiveFretboard';
