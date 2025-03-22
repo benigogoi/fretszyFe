@@ -8,7 +8,7 @@ type FretMarkersProps = {
 
 const FretMarkers: React.FC<FretMarkersProps> = ({
     numberOfFrets,
-    orientation = 'horizontal',
+    // orientation = 'horizontal',
     markerSize = 5
 }) => {
     // Filter marker positions to only include those within the number of frets

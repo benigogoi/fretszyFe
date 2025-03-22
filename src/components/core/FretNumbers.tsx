@@ -4,6 +4,7 @@ type FretNumbersProps = {
     numberOfFrets: number;
     showAll?: boolean;
     scale?: number;
+    orientation?: string;
 };
 
 const FretNumbers: React.FC<FretNumbersProps> = ({

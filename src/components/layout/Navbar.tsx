@@ -5,7 +5,7 @@ interface NavbarProps {
     title?: string;
 }
 
-const Navbar: React.FC<NavbarProps> = ({ title = 'Fretboard Master' }) => {
+const Navbar: React.FC<NavbarProps> = () => {
     return (
         <nav className="bg-[#1f1f1f] text-white shadow-md fixed top-0 left-0 right-0 w-full z-50">
             {/* Simplified navbar with centered title */}

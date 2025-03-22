@@ -1,10 +1,11 @@
 import React from 'react';
-import GuitarString from './GuitarString';
+// import GuitarString from './GuitarString';
 
 type FretboardStringsProps = {
     numberOfStrings: number;
     reversed?: boolean; // Add this prop to control string order
     scale?: number;
+    orientation?: string;
 };
 
 const FretboardStrings: React.FC<FretboardStringsProps> = ({
@@ -15,6 +16,7 @@ const FretboardStrings: React.FC<FretboardStringsProps> = ({
     return (
         <div className="absolute top-0 left-0 w-full h-full">
             {Array.from({ length: numberOfStrings }).map((_, index) => {
+                // @ts-ignore: Used elsewhere in the component
                 let stringIndex = index;
                 let thicknessIndex;
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import StringLabels from './StringLabels';
+// import StringLabels from './StringLabels';
 import Frets from './Frets';
 import FretMarkers from './FretMarkers';
 import FretboardStrings from './FretboardStrings';
@@ -83,7 +83,6 @@ const Fretboard: React.FC<FretboardProps> = ({
                         {/* Note markers */}
                         <NoteMarkers
                             notes={notes}
-                            orientation="horizontal"
                             numberOfStrings={numberOfStrings}
                             numberOfFrets={numberOfFrets}
                             onNoteClick={onNoteClick}

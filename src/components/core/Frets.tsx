@@ -3,6 +3,7 @@ import React from 'react';
 type FretsProps = {
     numberOfFrets: number;
     fretWidth?: number;
+    orientation?: string;
 };
 
 const Frets: React.FC<FretsProps> = ({

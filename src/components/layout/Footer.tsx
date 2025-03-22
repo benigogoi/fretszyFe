@@ -7,7 +7,7 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({
     copyrightYear = new Date().getFullYear(),
-    appName = 'Fretboard Master'
+    appName = 'Fret Clever'
 }) => {
     return (
         <footer className="bg-gray-800 text-white py-4 mt-auto">
@@ -15,7 +15,7 @@ const Footer: React.FC<FooterProps> = ({
                 <div className="flex justify-center items-center">
                     {/* Simple copyright section */}
                     <div className="text-center">
-                        <p>&copy; {copyrightYear} Fret Clever. All rights reserved.</p>
+                        <p>&copy; {copyrightYear} {appName}. All rights reserved.</p>
                     </div>
                 </div>
             </div>

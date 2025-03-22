@@ -16,10 +16,10 @@ type MobileFretboardProps = {
 const MobileFretboard: React.FC<MobileFretboardProps> = ({
     numberOfFrets = 12,
     numberOfStrings = 6,
-    tuning = ['E', 'A', 'D', 'G', 'B', 'E'], // Standard tuning from low to high
+    // tuning = ['E', 'A', 'D', 'G', 'B', 'E'],
     notes = [],
     onNoteClick,
-    gameActive = false,
+    // gameActive = false,
     targetNote = null,
     guessResult = null,
     scale = 1.0

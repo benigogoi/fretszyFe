@@ -17,7 +17,8 @@ const GameController: React.FC<GameControllerProps> = ({
     onEndGame
 }) => {
     // Game state
-    const [currentNote, setCurrentNote] = useState<NoteData | null>(null);
+    // const [currentNote, setCurrentNote] = useState<NoteData | null>(null);
+    const [_, setCurrentNote] = useState<NoteData | null>(null);
     const [score, setScore] = useState(0);
     const [attempts, setAttempts] = useState(0);
     const [maxAttempts] = useState(3);

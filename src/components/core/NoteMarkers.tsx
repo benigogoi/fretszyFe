@@ -8,6 +8,7 @@ export type NoteData = {
     label?: string;
     color?: string;
     actualNote?: string; // Add actual note for comparison
+    orientation?: string;
 };
 
 type NoteMarkersProps = {
@@ -61,7 +62,7 @@ const NoteMarkers: React.FC<NoteMarkersProps> = ({
                         numberOfStrings={numberOfStrings}
                         numberOfFrets={numberOfFrets}
                         onClick={() => onNoteClick && onNoteClick(note)}
-                        isTarget={isTarget}
+                        isTarget={isTarget || false}
                         isCorrect={isTarget ? guessResult : null}
                     />
                 );
