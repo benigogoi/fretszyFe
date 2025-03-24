@@ -7,15 +7,22 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = () => {
     return (
-        <nav className="bg-[#1f1f1f] text-white shadow-md fixed top-0 left-0 right-0 w-full z-50">
-            {/* Simplified navbar with centered title */}
+        <nav className="
+            bg-[#1f1f1f] text-white shadow-md 
+            w-full z-50
+            relative          /* Default for mobile (not fixed) */
+            md:fixed md:top-0 md:left-0 md:right-0  /* Fixed on md and above */
+        ">
             <div className="w-full px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-center h-16">
-                    {/* Centered logo and title section */}
                     <div className="flex items-center">
                         <div className="flex-shrink-0 flex items-center">
                             <span className="font-bold text-xl">
-                                <img src={logo} alt="Fretboard Master Logo" className="h-16 w-auto p-2" />
+                                <img
+                                    src={logo}
+                                    alt="Fret Clever Logo"
+                                    className="h-16 w-auto p-2"
+                                />
                             </span>
                         </div>
                     </div>
