@@ -209,7 +209,7 @@ function App() {
             Updated this container to have pt-10 for mobile and pt-16 for md+ 
             (replacing pt-12).
           */}
-          <div className="pt-10 md:pt-16 px-4 flex-5 flex flex-col">
+          <div className="pt-4 md:pt-16 px-4 flex-5 flex flex-col">
             {/* Game Status Bar */}
             <div className="game-status flex items-center justify-between p-2 bg-gray-100 rounded mt-1">
               <div className="flex items-center space-x-10">
