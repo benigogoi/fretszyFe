@@ -153,8 +153,8 @@ function App() {
       setTimeout(() => {
         setTargetNote({
           ...targetNote,
-          label: "?", // Back to question mark
-          color: "#ff1493" // Back to hot pink
+          label: "?",
+          color: "#ff1493"
         });
         setGuessResult(null);
       }, 1000);
@@ -205,7 +205,11 @@ function App() {
       {gameActive ? (
         // ACTIVE GAME VIEW - optimized for mobile to fit in one screen
         <div className="game-view-container min-h-screen flex flex-col">
-          <div className="pt-16 px-4 flex-5 flex flex-col">
+          {/* 
+            Updated this container to have pt-10 for mobile and pt-16 for md+ 
+            (replacing pt-12).
+          */}
+          <div className="pt-10 md:pt-16 px-4 flex-5 flex flex-col">
             {/* Game Status Bar */}
             <div className="game-status flex items-center justify-between p-2 bg-gray-100 rounded mt-1">
               <div className="flex items-center space-x-10">
@@ -229,7 +233,7 @@ function App() {
                 gameActive={gameActive}
                 targetNote={targetNote}
                 guessResult={guessResult}
-                scale={isMobile ? 0.75 : 0.9} // Slightly smaller scale on mobile to fit everything
+                scale={isMobile ? 0.75 : 0.9}
               />
             </div>
 
@@ -254,13 +258,16 @@ function App() {
         // HOME VIEW - when not in active game
         <div className="pt-20 pb-24">
           <div className="container mx-auto px-4">
-            <h1 className="text-3xl font-bold mb-3 text-center">Guitar Fretboard Mastery - Freboard Trainer</h1>
+            <h1 className="text-3xl font-bold mb-3 text-center">
+              Guitar Fretboard Mastery - Freboard Trainer
+            </h1>
 
             {/* Only show intro paragraph on desktop */}
             {!gameEnded && (
               <div className="hidden md:block">
                 <p className="text-lg text-center mb-6">
-                  Test your fretboard skills with the Guitar Note Recognition Game! Boost memory, improve playing, and track progress. Perfect for all guitarists! Play now!
+                  Test your fretboard skills with the Guitar Note Recognition Game!
+                  Boost memory, improve playing, and track progress. Perfect for all guitarists! Play now!
                 </p>
               </div>
             )}
@@ -269,7 +276,9 @@ function App() {
             {gameEnded && (
               <div className="game-summary mb-6 p-4 bg-blue-50 rounded-lg text-center">
                 <h2 className="text-xl font-bold mb-2">Game Over!</h2>
-                <p className="text-lg mb-2">Your final score: <span className="font-bold text-blue-600">{score}</span></p>
+                <p className="text-lg mb-2">
+                  Your final score: <span className="font-bold text-blue-600">{score}</span>
+                </p>
                 <Button variant="primary" size="md" onClick={handleReset} className="mt-2">
                   Reset Game
                 </Button>
@@ -277,7 +286,6 @@ function App() {
             )}
 
             <div className="mb-4">
-              {/* Use the ResponsiveFretboard component */}
               <ResponsiveFretboard
                 numberOfFrets={numberOfFrets}
                 notes={displayNotes}
@@ -294,7 +302,7 @@ function App() {
               <div className="relative">
                 {/* Only show on mobile view */}
                 <div className="sm:hidden flex flex-col items-center">
-                  <div className="w-full max-w-md mb-20"> {/* Added margin bottom to make room for floating button */}
+                  <div className="w-full max-w-md mb-20">
                     <div className="flex justify-between items-center mb-2">
                       <div className="w-1/2 pr-1">
                         <label className="block text-sm font-medium mb-1">Fret Length</label>
@@ -328,17 +336,28 @@ function App() {
                   <div className="fixed bottom-24 left-0 right-0 px-4 z-40 flex justify-center">
                     <button
                       onClick={handleStartGame}
-                      className="w-full max-w-md bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-4 rounded-md shadow-lg flex items-center justify-center"
+                      className="w-full max-w-md bg-green-500 hover:bg-green-600 
+                                 text-white font-bold py-3 px-4 rounded-md shadow-lg 
+                                 flex items-center justify-center"
                     >
                       <span>Start Game</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
-                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="h-5 w-5 ml-2"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
+                          clipRule="evenodd"
+                        />
                       </svg>
                     </button>
                   </div>
                 </div>
 
-                {/* Desktop controls - unchanged */}
+                {/* Desktop controls */}
                 <div className="hidden sm:flex sm:flex-row flex-wrap items-center justify-center gap-4 sm:gap-6">
                   <div>
                     <label className="block mb-2 font-medium">Fret Length</label>
@@ -373,7 +392,8 @@ function App() {
             {!gameEnded && (
               <div className="md:hidden mt-8">
                 <p className="text-base text-center">
-                  Test your fretboard skills with the Guitar Note Recognition Game! Boost memory, improve playing, and track progress. Perfect for all guitarists! Play now!
+                  Test your fretboard skills with the Guitar Note Recognition Game!
+                  Boost memory, improve playing, and track progress. Perfect for all guitarists! Play now!
                 </p>
               </div>
             )}
