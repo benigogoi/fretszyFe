@@ -205,10 +205,10 @@ function App() {
       {gameActive ? (
         // ACTIVE GAME VIEW - optimized for mobile to fit in one screen
         <div className="game-view-container min-h-screen flex flex-col">
-          <div className="pt-16 px-4 flex-1 flex flex-col">
+          <div className="pt-16 px-4 flex-5 flex flex-col">
             {/* Game Status Bar */}
-            <div className="game-status flex items-center justify-between p-2 bg-gray-100 rounded mb-2 mt-1">
-              <div className="flex items-center space-x-4">
+            <div className="game-status flex items-center justify-between p-2 bg-gray-100 rounded mt-1">
+              <div className="flex items-center space-x-10">
                 <div className="score">
                   <span className="font-bold">Score:</span> {score}
                 </div>
