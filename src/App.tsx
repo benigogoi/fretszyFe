@@ -233,7 +233,7 @@ function App() {
                 gameActive={gameActive}
                 targetNote={targetNote}
                 guessResult={guessResult}
-                scale={isMobile ? 0.72 : 0.9}
+                scale={isMobile ? 0.69 : 0.9}
               />
             </div>
 
