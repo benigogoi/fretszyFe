@@ -211,7 +211,7 @@ function App() {
           */}
           <div className="pt-4 md:pt-16 px-4 flex-5 flex flex-col">
             {/* Game Status Bar */}
-            <div className="game-status flex items-center justify-between p-2 bg-gray-100 rounded mt-1 mb-4 md:mb-0">
+            <div className="game-status flex items-center justify-between p-2 bg-gray-100 rounded mt-1 mb-10 md:mb-0">
               <div className="flex items-center space-x-10">
                 <div className="score">
                   <span className="font-bold">Score:</span> {score}
