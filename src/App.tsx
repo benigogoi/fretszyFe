@@ -226,7 +226,7 @@ function App() {
             </div>
 
             {/* Fretboard Container - with flex-grow to take available space */}
-            <div className="fretboard-container flex-grow flex flex-col justify-center items-center mb-2 overflow-hidden">
+            <div className="fretboard-container flex-grow flex flex-col justify-center items-center mb-0 overflow-hidden">
               <ResponsiveFretboard
                 numberOfFrets={numberOfFrets}
                 notes={displayNotes}
@@ -238,7 +238,7 @@ function App() {
             </div>
 
             {/* Note Selection - fixed at bottom with minimal padding */}
-            <div className="note-selector py-2 bg-white border-t border-gray-200 mb-1">
+            <div className="note-selector py-2 -mt-5 bg-white border-t border-gray-200 mb-1">
               <h4 className="text-sm font-bold mb-1 text-center">Select the correct note:</h4>
               <div className="grid grid-cols-6 gap-1 px-1">
                 {allNotes.map((note) => (
