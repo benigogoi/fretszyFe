@@ -1,6 +1,5 @@
 /// <reference types="node" />
 import { useState, useEffect } from 'react';
-import { Analytics } from "@vercel/analytics/react"
 import './App.css';
 import ResponsiveFretboard from './components/core/ResponsiveFretboard';
 import { NoteData } from './components/core/NoteMarkers';
