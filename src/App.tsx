@@ -238,8 +238,7 @@ function App() {
             </div>
 
             {/* Note Selection - fixed at bottom with minimal padding */}
-            <div className="note-selector py-2 transform -translate-y-[50px] bg-white border-t border-gray-200 mb-1">
-            {/* <div className="note-selector py-2 -mt-5 bg-white border-t border-gray-200 mb-1"> */}
+            <div className="note-selector py-2 transform -translate-y-[50px] md:translate-y-0 bg-white border-t border-gray-200 mb-1">
               <h4 className="text-sm font-bold mb-1 text-center">Select the correct note:</h4>
               <div className="grid grid-cols-6 gap-1 px-1">
                 {allNotes.map((note) => (
@@ -400,8 +399,9 @@ function App() {
             )}
           </div>
         </div>
-      )}
-    </Layout>
+      )
+      }
+    </Layout >
   );
 }
 
