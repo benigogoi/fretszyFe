@@ -179,7 +179,7 @@ const MobileFretboard: React.FC<MobileFretboardProps> = ({
                                 key="marker-12"
                                 className="absolute w-full"
                                 style={{
-                                    top: `${(12 - 0.5) * fretHeight}px`,
+                                    top: `${(12 - 0.7) * fretHeight}px`,
                                     zIndex: 6
                                 }}
                             >
