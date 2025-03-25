@@ -1,6 +1,7 @@
 // src/utils/SEOUtils.tsx
 
-import React from 'react';
+// Remove the React import since we're not using any React features
+// import React from 'react';
 
 /**
  * Updates the document title
@@ -29,6 +30,4 @@ export const updateSEO = (title: string, description: string) => {
     updateMetaDescription(description);
 };
 
-// Although this file doesn't export any React components,
-// maintaining the .tsx extension keeps your project consistent
-export default {};
+// No need to export default in this utility file
