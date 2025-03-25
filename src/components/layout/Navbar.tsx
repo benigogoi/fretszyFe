@@ -1,5 +1,5 @@
 import React from 'react';
-import logo from "../../assets/fretCleverLogo1.png";
+import logo from "../../assets/FretszyLogo.png";
 
 interface NavbarProps {
     title?: string;
@@ -20,7 +20,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                             <span className="font-bold text-xl">
                                 <img
                                     src={logo}
-                                    alt="Fret Clever Guitar Fretboard Training Tool Logo"
+                                    alt="Fretszy Guitar Fretboard Training Tool Logo"
                                     className="h-16 w-auto p-2"
                                 />
                             </span>

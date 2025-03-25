@@ -8,7 +8,7 @@
  * @param title The page-specific part of the title
  */
 export const updateTitle = (title: string) => {
-    document.title = `${title} | Fret Clever - Guitar Fretboard Trainer`;
+    document.title = `${title} | Fretszy - Guitar Fretboard Trainer`;
 };
 
 /**

@@ -426,7 +426,7 @@ function App() {
                     <strong>Step 3:</strong> Practice regularly to build your recognition speed. Try to beat your previous scores!
                   </p>
                   <p>
-                    The ability to quickly recognize notes on the fretboard is essential for improvisation, songwriting, and overall guitar mastery. Regular practice with FretClever will help develop this crucial skill.
+                    The ability to quickly recognize notes on the fretboard is essential for improvisation, songwriting, and overall guitar mastery. Regular practice with Fretszy will help develop this crucial skill.
                   </p>
                 </div>
               </div>
@@ -451,7 +451,7 @@ function App() {
               {
                 "@context": "https://schema.org",
                 "@type": "WebApplication",
-                "name": "Fret Clever",
+                "name": "Fretszy",
                 "description": "Interactive guitar fretboard trainer to help guitarists learn notes and master the fretboard",
                 "applicationCategory": "EducationalApplication",
                 "operatingSystem": "Any",

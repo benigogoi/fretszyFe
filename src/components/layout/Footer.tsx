@@ -7,7 +7,7 @@ interface FooterProps {
 
 const Footer: React.FC<FooterProps> = ({
     copyrightYear = new Date().getFullYear(),
-    appName = 'Fret Clever'
+    appName = 'Fretszy'
 }) => {
     return (
         <footer className="bg-gray-800 text-white py-4 mt-auto">
