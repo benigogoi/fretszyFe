@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 # After connecting domain, update this URL
-Sitemap: https://fretclever.vercel.app/sitemap.xml
+Sitemap: https://fretszy.com/sitemap.xml
