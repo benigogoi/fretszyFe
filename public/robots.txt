@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# After connecting domain, update this URL
+Sitemap: https://fretclever.vercel.app/sitemap.xml

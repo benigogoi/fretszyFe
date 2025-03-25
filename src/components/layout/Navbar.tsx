@@ -20,7 +20,7 @@ const Navbar: React.FC<NavbarProps> = () => {
                             <span className="font-bold text-xl">
                                 <img
                                     src={logo}
-                                    alt="Fret Clever Logo"
+                                    alt="Fret Clever Guitar Fretboard Training Tool Logo"
                                     className="h-16 w-auto p-2"
                                 />
                             </span>

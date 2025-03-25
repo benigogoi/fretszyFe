@@ -16,6 +16,11 @@ const Footer: React.FC<FooterProps> = ({
                     {/* Simple copyright section */}
                     <div className="text-center">
                         <p>&copy; {copyrightYear} {appName}. All rights reserved.</p>
+                        <div className="mt-2 text-sm">
+                            <span className="mx-2">Guitar Fretboard Trainer</span> •
+                            <span className="mx-2">Note Recognition Game</span> •
+                            <span className="mx-2">Learn Guitar Online</span>
+                        </div>
                     </div>
                 </div>
             </div>

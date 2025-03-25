@@ -8,6 +8,7 @@ import Layout from './components/layout/Layout';
 import Button from './components/ui/Button';
 import Select from './components/ui/Select';
 import StringSelection from './components/ui/StringSelection';
+import { updateTitle } from './utils/SEOUtils';
 
 function App() {
   // Game settings state
@@ -38,6 +39,17 @@ function App() {
     window.addEventListener('resize', checkIfMobile);
     return () => window.removeEventListener('resize', checkIfMobile);
   }, []);
+
+  // Update title based on game state
+  useEffect(() => {
+    if (gameActive) {
+      updateTitle('Playing Note Recognition Game');
+    } else if (gameEnded) {
+      updateTitle(`Game Results: Score ${score}`);
+    } else {
+      updateTitle('Master the Guitar Fretboard');
+    }
+  }, [gameActive, gameEnded, score]);
 
   // Timer effect
   useEffect(() => {
@@ -211,7 +223,7 @@ function App() {
           */}
           <div className="pt-4 md:pt-16 px-4 flex-5 flex flex-col">
             {/* Game Status Bar */}
-            <div className="game-status flex items-center justify-between p-2 bg-gray-100 rounded mt-1 mb-4 md:mb-0"> 
+            <div className="game-status flex items-center justify-between p-2 bg-gray-100 rounded mt-1 mb-4 md:mb-0">
               <div className="flex items-center space-x-10">
                 <div className="score">
                   <span className="font-bold">Score:</span> {score}
@@ -259,7 +271,7 @@ function App() {
         <div className="pt-20 pb-24">
           <div className="container mx-auto px-4">
             <h1 className="text-3xl font-bold mb-3 text-center">
-              Guitar Fretboard Mastery - Freboard Trainer
+              Guitar Fretboard Mastery - Interactive Trainer
             </h1>
 
             {/* Only show intro paragraph on desktop */}
@@ -269,6 +281,7 @@ function App() {
                   Test your fretboard skills with the Guitar Note Recognition Game!
                   Boost memory, improve playing, and track progress. Perfect for all guitarists! Play now!
                 </p>
+                <h2 className="text-2xl font-bold text-center mt-8 mb-4">Start Training Your Fretboard Skills</h2>
               </div>
             )}
 
@@ -397,11 +410,69 @@ function App() {
                 </p>
               </div>
             )}
+
+            {/* "How to Play" section for desktop */}
+            {!gameEnded && !isMobile && (
+              <div className="mt-16 max-w-3xl mx-auto bg-gray-50 p-6 rounded-lg shadow-sm">
+                <h2 className="text-2xl font-bold mb-4">How to Master the Guitar Fretboard</h2>
+                <div className="space-y-4">
+                  <p>
+                    <strong>Step 1:</strong> Select your desired fret length and string range. Beginners may want to start with fewer frets and focus on strings 6-4.
+                  </p>
+                  <p>
+                    <strong>Step 2:</strong> Start the game and identify the note shown on the fretboard by clicking the correct note name.
+                  </p>
+                  <p>
+                    <strong>Step 3:</strong> Practice regularly to build your recognition speed. Try to beat your previous scores!
+                  </p>
+                  <p>
+                    The ability to quickly recognize notes on the fretboard is essential for improvisation, songwriting, and overall guitar mastery. Regular practice with FretClever will help develop this crucial skill.
+                  </p>
+                </div>
+              </div>
+            )}
+
+            {/* Mobile version of "How to Play" - simplified */}
+            {!gameEnded && isMobile && (
+              <div className="mt-8 bg-gray-50 p-4 rounded-lg shadow-sm">
+                <h2 className="text-xl font-bold mb-2">How to Play</h2>
+                <ul className="list-disc pl-5 space-y-1 text-sm">
+                  <li>Select fret length and strings</li>
+                  <li>Start the game to see a highlighted note</li>
+                  <li>Identify the correct note name</li>
+                  <li>Practice daily to improve your skills</li>
+                </ul>
+              </div>
+            )}
+
+            {/* Schema.org markup for SEO */}
+            <script type="application/ld+json" dangerouslySetInnerHTML={{
+              __html: `
+              {
+                "@context": "https://schema.org",
+                "@type": "WebApplication",
+                "name": "Fret Clever",
+                "description": "Interactive guitar fretboard trainer to help guitarists learn notes and master the fretboard",
+                "applicationCategory": "EducationalApplication",
+                "operatingSystem": "Any",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "0",
+                  "priceCurrency": "USD"
+                },
+                "featureList": [
+                  "Interactive fretboard visualization",
+                  "Note recognition game",
+                  "Customizable fretboard length",
+                  "String selection options",
+                  "Responsive design for mobile and desktop"
+                ]
+              }
+            `}} />
           </div>
         </div>
-      )
-      }
-    </Layout >
+      )}
+    </Layout>
   );
 }
 
