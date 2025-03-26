@@ -9,8 +9,15 @@ import Button from './components/ui/Button';
 import Select from './components/ui/Select';
 import StringSelection from './components/ui/StringSelection';
 import { updateTitle } from './utils/SEOUtils';
+import ReactGA from 'react-ga4';
 
 function App() {
+  // Initialize Google Analytics on app load
+  useEffect(() => {
+    ReactGA.initialize('G-D37FBTN3TP');
+    ReactGA.send({ hitType: 'pageview', page: '/' });
+  }, []);
+
   // Game settings state
   const [fretLength, setFretLength] = useState(12);
   const [startString, setStartString] = useState(6); // Default to 6th string (low E)
@@ -59,7 +66,6 @@ function App() {
       interval = setInterval(() => {
         setTimeLeft((prevTime) => {
           if (prevTime <= 1) {
-            // Time's up - end game
             clearInterval(interval as NodeJS.Timeout);
             setTimerActive(false);
             endGame();
@@ -79,23 +85,18 @@ function App() {
 
   // Generate a random target note
   const generateRandomNote = () => {
-    // Random string between startString and endString
     const stringNumber = Math.floor(
       Math.random() * (startString - endString + 1) + endString
     );
-
-    // Random fret between 1 and fretLength
     const fretNumber = Math.floor(Math.random() * fretLength) + 1;
-
-    // Get the actual note name at this position
     const noteName = getNoteAtPosition(stringNumber, fretNumber);
 
     return {
       stringNumber,
       fretNumber,
-      label: "?", // Replace note name with question mark
-      actualNote: noteName, // Store the actual note for comparison
-      color: '#ff1493' // Hot pink for target note
+      label: "?",
+      actualNote: noteName,
+      color: '#ff1493'
     };
   };
 
@@ -136,38 +137,20 @@ function App() {
     const isCorrect = guessedNote === targetNote.actualNote;
 
     if (isCorrect) {
-      // Correct guess
       setGuessResult(true);
       setScore(score + 1);
+      setTargetNote({ ...targetNote, label: "✓", color: "#22c55e" });
 
-      // Update the target note to show the check mark and green color
-      setTargetNote({
-        ...targetNote,
-        label: "✓", // Replace ? with check mark
-        color: "#22c55e" // Green color
-      });
-
-      // Move to next note after a brief delay
       setTimeout(() => {
         setTargetNote(generateRandomNote());
         setGuessResult(null);
       }, 1000);
     } else {
-      // Wrong guess - show X mark and red color
       setGuessResult(false);
-      setTargetNote({
-        ...targetNote,
-        label: "✗", // X mark for wrong answer
-        color: "#ef4444" // Red color
-      });
+      setTargetNote({ ...targetNote, label: "✗", color: "#ef4444" });
 
-      // Just show feedback briefly before returning to the question mark
       setTimeout(() => {
-        setTargetNote({
-          ...targetNote,
-          label: "?",
-          color: "#ff1493"
-        });
+        setTargetNote({ ...targetNote, label: "?", color: "#ff1493" });
         setGuessResult(null);
       }, 1000);
     }
@@ -213,16 +196,9 @@ function App() {
 
   return (
     <Layout>
-      {/* Conditional layout based on game state */}
       {gameActive ? (
-        // ACTIVE GAME VIEW - optimized for mobile to fit in one screen
         <div className="game-view-container min-h-screen flex flex-col">
-          {/* 
-            Updated this container to have pt-10 for mobile and pt-16 for md+ 
-            (replacing pt-12).
-          */}
           <div className="pt-4 md:pt-16 px-4 flex-5 flex flex-col">
-            {/* Game Status Bar */}
             <div className="game-status flex items-center justify-between p-2 bg-gray-100 rounded mt-1 mb-4 md:mb-0">
               <div className="flex items-center space-x-10">
                 <div className="score">
@@ -236,8 +212,6 @@ function App() {
                 End Game
               </Button>
             </div>
-
-            {/* Fretboard Container - with flex-grow to take available space */}
             <div className="fretboard-container flex-grow flex flex-col justify-center items-center mb-0 overflow-hidden">
               <ResponsiveFretboard
                 numberOfFrets={numberOfFrets}
@@ -248,8 +222,6 @@ function App() {
                 scale={isMobile ? 0.65 : 0.9}
               />
             </div>
-
-            {/* Note Selection - fixed at bottom with minimal padding */}
             <div className="note-selector py-2 transform -translate-y-[50px] md:translate-y-0 bg-white border-t border-gray-200 mb-1">
               <h4 className="text-sm font-bold mb-1 text-center">Select the correct note:</h4>
               <div className="grid grid-cols-6 gap-1 px-1">
@@ -267,25 +239,22 @@ function App() {
           </div>
         </div>
       ) : (
-        // HOME VIEW - when not in active game
         <div className="pt-20 pb-24">
           <div className="container mx-auto px-4">
             <h1 className="text-3xl font-bold mb-3 text-center">
               Guitar Fretboard Mastery - Interactive Trainer
             </h1>
-
-            {/* Only show intro paragraph on desktop */}
             {!gameEnded && (
               <div className="hidden md:block">
                 <p className="text-lg text-center mb-6">
                   Test your fretboard skills with the Guitar Note Recognition Game!
                   Boost memory, improve playing, and track progress. Perfect for all guitarists! Play now!
                 </p>
-                <h2 className="text-2xl font-bold text-center mt-8 mb-4">Start Training Your Fretboard Skills</h2>
+                <h2 className="text-2xl font-bold text-center mt-8 mb-4">
+                  Start Training Your Fretboard Skills
+                </h2>
               </div>
             )}
-
-            {/* Game Ended Summary */}
             {gameEnded && (
               <div className="game-summary mb-6 p-4 bg-blue-50 rounded-lg text-center">
                 <h2 className="text-xl font-bold mb-2">Game Over!</h2>
@@ -297,7 +266,6 @@ function App() {
                 </Button>
               </div>
             )}
-
             <div className="mb-4">
               <ResponsiveFretboard
                 numberOfFrets={numberOfFrets}
@@ -309,11 +277,8 @@ function App() {
                 scale={0.9}
               />
             </div>
-
-            {/* Home Controls - Optimized for mobile */}
             {!gameEnded && (
               <div className="relative">
-                {/* Only show on mobile view */}
                 <div className="sm:hidden flex flex-col items-center">
                   <div className="w-full max-w-md mb-20">
                     <div className="flex justify-between items-center mb-2">
@@ -326,7 +291,6 @@ function App() {
                           onChange={(e) => setFretLength(Number(e.target.value))}
                         />
                       </div>
-
                       <div className="w-1/2 pl-1">
                         <label className="block text-sm font-medium mb-1">String Range</label>
                         <div className="text-sm bg-gray-100 py-2 px-3 rounded-md border border-gray-300">
@@ -334,7 +298,6 @@ function App() {
                         </div>
                       </div>
                     </div>
-
                     <div className="mb-3">
                       <StringSelection
                         startString={startString}
@@ -344,8 +307,6 @@ function App() {
                       />
                     </div>
                   </div>
-
-                  {/* Floating Start Game Button */}
                   <div className="fixed bottom-24 left-0 right-0 px-4 z-40 flex justify-center">
                     <button
                       onClick={handleStartGame}
@@ -369,8 +330,6 @@ function App() {
                     </button>
                   </div>
                 </div>
-
-                {/* Desktop controls */}
                 <div className="hidden sm:flex sm:flex-row flex-wrap items-center justify-center gap-4 sm:gap-6">
                   <div>
                     <label className="block mb-2 font-medium">Fret Length</label>
@@ -381,14 +340,12 @@ function App() {
                       onChange={(e) => setFretLength(Number(e.target.value))}
                     />
                   </div>
-
                   <StringSelection
                     startString={startString}
                     endString={endString}
                     onStartStringChange={setStartString}
                     onEndStringChange={setEndString}
                   />
-
                   <Button
                     variant="success"
                     size="md"
@@ -400,8 +357,6 @@ function App() {
                 </div>
               </div>
             )}
-
-            {/* Mobile intro paragraph - show at the bottom */}
             {!gameEnded && (
               <div className="md:hidden mt-8">
                 <p className="text-base text-center">
@@ -410,8 +365,6 @@ function App() {
                 </p>
               </div>
             )}
-
-            {/* "How to Play" section for desktop */}
             {!gameEnded && !isMobile && (
               <div className="mt-16 max-w-3xl mx-auto bg-gray-50 p-6 rounded-lg shadow-sm">
                 <h2 className="text-2xl font-bold mb-4">How to Master the Guitar Fretboard</h2>
@@ -431,8 +384,6 @@ function App() {
                 </div>
               </div>
             )}
-
-            {/* Mobile version of "How to Play" - simplified */}
             {!gameEnded && isMobile && (
               <div className="mt-8 bg-gray-50 p-4 rounded-lg shadow-sm">
                 <h2 className="text-xl font-bold mb-2">How to Play</h2>
@@ -444,8 +395,6 @@ function App() {
                 </ul>
               </div>
             )}
-
-            {/* Schema.org markup for SEO */}
             <script type="application/ld+json" dangerouslySetInnerHTML={{
               __html: `
               {
