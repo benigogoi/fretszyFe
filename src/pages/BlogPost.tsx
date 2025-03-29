@@ -30,9 +30,9 @@ interface RelatedPost {
 }
 
 interface BlogPostParams {
+  [key: string]: string;
   id: string;
 }
-
 // Sample blog post data (in a real app, this would come from an API or CMS)
 const blogPostsData: BlogPostData[] = [
   {

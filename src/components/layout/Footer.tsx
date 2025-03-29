@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import NewsletterSignup from '../ui/NewsletterSignup';
+// import NewsletterSignup from '../ui/NewsletterSignup';
 
 interface FooterProps {
     copyrightYear?: number;
