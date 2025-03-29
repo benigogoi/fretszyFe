@@ -10,12 +10,17 @@ import Select from './components/ui/Select';
 import StringSelection from './components/ui/StringSelection';
 import { updateTitle } from './utils/SEOUtils';
 import ReactGA from 'react-ga4';
+import emailjs from 'emailjs-com';
 
 function App() {
-  // Initialize Google Analytics on app load
+  // Initialize Google Analytics and EmailJS on app load
   useEffect(() => {
+    // Initialize Google Analytics
     ReactGA.initialize('G-D37FBTN3TP');
     ReactGA.send({ hitType: 'pageview', page: '/' });
+
+    // Initialize EmailJS
+    emailjs.init('WR3raC70Oqwd00JG8');
   }, []);
 
   // Game settings state
