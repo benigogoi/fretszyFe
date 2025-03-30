@@ -1,8 +1,16 @@
 {
+    "redirects": [
+      {
+        "source": "https://www.fretszy.com/:path*",
+        "destination": "https://fretszy.com/:path*",
+        "permanent": true
+      }
+    ],
     "rewrites": [
-        {
-            "source": "/(.*)",
-            "destination": "/index.html"
-        }
+      {
+        "source": "/(.*)",
+        "destination": "/index.html"
+      }
     ]
-}
+  }
+  
