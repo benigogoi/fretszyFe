@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
 
-# After connecting domain, update this URL
 Sitemap: https://fretszy.com/sitemap.xml
