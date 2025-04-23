@@ -1,0 +1,21 @@
+{
+    "redirects": [
+        {
+            "source": "/:path*",
+            "has": [
+                {
+                    "type": "host",
+                    "value": "www.fretszy.com"
+                }
+            ],
+            "destination": "https://fretszy.com/:path*",
+            "permanent": true
+        }
+    ],
+    "rewrites": [
+        {
+            "source": "/(.*)",
+            "destination": "/index.html"
+        }
+    ]
+}
