@@ -3,5 +3,12 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
+<<<<<<< HEAD
   ]
+=======
+  ],
+  "compilerOptions": {
+    "types": ["node"]
+  }
+>>>>>>> 9e8b03c4c11e3fee722852612c1ccd6987ae5506
 }

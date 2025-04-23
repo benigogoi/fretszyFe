@@ -33,7 +33,11 @@ interface BlogPostParams {
   [key: string]: string;
   id: string;
 }
+<<<<<<< HEAD
 
+=======
+// Sample blog post data (in a real app, this would come from an API or CMS)
+>>>>>>> 9e8b03c4c11e3fee722852612c1ccd6987ae5506
 const blogPostsData: BlogPostData[] = [
   {
     id: 'master-low-e-string',
@@ -981,6 +985,7 @@ const BlogPost: React.FC = () => {
 
   if (loading) {
     return (
+<<<<<<< HEAD
       <div className="pt-20 pb-12 bg-gray-900 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
@@ -990,11 +995,25 @@ const BlogPost: React.FC = () => {
           </div>
         </div>
       </div>
+=======
+      <Layout>
+        <div className="pt-20 pb-12">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mx-auto">
+              <div className="flex justify-center items-center h-64">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </Layout>
+>>>>>>> 9e8b03c4c11e3fee722852612c1ccd6987ae5506
     );
   }
 
   if (!post) {
     return (
+<<<<<<< HEAD
       <div className="pt-20 pb-12 bg-gray-900 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
@@ -1005,10 +1024,25 @@ const BlogPost: React.FC = () => {
                 <Link to="/blog" className="text-blue-400 hover:text-blue-300">
                   ← Back to all posts
                 </Link>
+=======
+      <Layout>
+        <div className="pt-20 pb-12">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mx-auto">
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+                <strong className="font-bold">Post not found!</strong>
+                <span className="block sm:inline"> The blog post you're looking for does not exist.</span>
+                <div className="mt-4">
+                  <Link to="/blog" className="text-blue-600 hover:text-blue-800">
+                    ← Back to all posts
+                  </Link>
+                </div>
+>>>>>>> 9e8b03c4c11e3fee722852612c1ccd6987ae5506
               </div>
             </div>
           </div>
         </div>
+<<<<<<< HEAD
       </div>
     );
   }
@@ -1121,6 +1155,117 @@ const BlogPost: React.FC = () => {
         </div>
       </div>
     </div>
+=======
+      </Layout>
+    );
+  }
+
+  return (
+    <Layout>
+      <div className="pt-20 pb-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto">
+            {/* Breadcrumb */}
+            <div className="mb-6 text-sm">
+              <Link to="/" className="text-gray-600 hover:text-blue-600">Home</Link>
+              <span className="mx-2 text-gray-400">/</span>
+              <Link to="/blog" className="text-gray-600 hover:text-blue-600">Blog</Link>
+              <span className="mx-2 text-gray-400">/</span>
+              <span className="text-gray-800">{post.title}</span>
+            </div>
+
+            {/* Article container */}
+            <article className="bg-white rounded-xl shadow-md overflow-hidden">
+              {/* Featured image */}
+              <div className="mb-6">
+                <img
+                  src={post.image}
+                  alt={post.title}
+                  className="w-full max-h-60 object-cover rounded-md"
+                />
+              </div>
+
+              <div className="px-6 md:px-10 pb-10">
+                {/* Blog post header */}
+                <div className="mb-8">
+                  <div className="flex flex-wrap items-center gap-3 mb-4">
+                    <span className="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full">
+                      {post.category}
+                    </span>
+                    <span className="text-gray-600 text-sm">{post.date}</span>
+                    <span className="text-gray-400">•</span>
+                    <span className="text-gray-600 text-sm">{post.readingTime}</span>
+                  </div>
+                  <h1 className="text-3xl md:text-4xl font-bold mb-6">{post.title}</h1>
+
+                  <div className="flex items-center mb-8 pt-4 border-t border-gray-100">
+                    {/* <div className="w-12 h-12 bg-gray-300 rounded-full mr-4"></div>
+                                      <div>
+                                          <p className="font-medium">{post.author}</p>
+                                          <p className="text-sm text-gray-600">{post.authorTitle}</p>
+                                      </div> */}
+                  </div>
+                </div>
+
+                {/* Blog content */}
+                <div className="prose prose-lg max-w-none">
+                  <div dangerouslySetInnerHTML={{ __html: post.content }} />
+                </div>
+              </div>
+            </article>
+
+
+
+
+
+            {/* Related posts */}
+            <div className="my-12">
+              <h3 className="text-2xl font-bold mb-6">Related Articles</h3>
+              <div className="grid md:grid-cols-3 gap-6">
+                {post.relatedPosts.map((relatedPost) => (
+                  <div key={relatedPost.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                    {relatedPost.image && (
+                      <Link to={`/blog/${relatedPost.id}`}>
+                        <img
+                          src={relatedPost.image}
+                          alt={relatedPost.title}
+                          className="w-full h-40 object-cover"
+                        />
+                      </Link>
+                    )}
+                    <div className="p-5">
+                      <span className="inline-block bg-gray-100 text-gray-800 text-xs font-semibold px-2 py-1 rounded-full mb-2">
+                        {relatedPost.category}
+                      </span>
+                      <h4 className="font-bold mb-2 line-clamp-2">
+                        <Link
+                          to={`/blog/${relatedPost.id}`}
+                          className="hover:text-blue-600 transition-colors duration-300"
+                        >
+                          {relatedPost.title}
+                        </Link>
+                      </h4>
+                      <Link
+                        to={`/blog/${relatedPost.id}`}
+                        className="text-blue-600 hover:text-blue-800 text-sm font-medium inline-flex items-center"
+                      >
+                        Read Article
+                        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                        </svg>
+                      </Link>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </Layout>
+>>>>>>> 9e8b03c4c11e3fee722852612c1ccd6987ae5506
   );
 };
 

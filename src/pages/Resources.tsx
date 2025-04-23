@@ -1,6 +1,10 @@
 import React from 'react';
 import Layout from '../components/layout/Layout';
+<<<<<<< HEAD
 import Button from '../components/common/Button';
+=======
+import Button from '../components/ui/Button';
+>>>>>>> 9e8b03c4c11e3fee722852612c1ccd6987ae5506
 import { Link } from 'react-router-dom';
 
 const Resources: React.FC = () => {

@@ -1,10 +1,19 @@
 import React from 'react';
+<<<<<<< HEAD
 // import Layout from '../components/layout/Layout';
 
 const About: React.FC = () => {
     return (
         // <Layout>
             <div className="pt-8 pb-12">
+=======
+import Layout from '../components/layout/Layout';
+
+const About: React.FC = () => {
+    return (
+        <Layout>
+            <div className="pt-20 pb-12">
+>>>>>>> 9e8b03c4c11e3fee722852612c1ccd6987ae5506
                 <div className="container mx-auto px-4 max-w-4xl">
                     <h1 className="text-3xl font-bold mb-8 text-center">About Fretszy</h1>
 
@@ -50,25 +59,41 @@ const About: React.FC = () => {
                         <div className="grid md:grid-cols-2 gap-6 mt-6">
                             <div className="bg-blue-50 p-6 rounded-lg">
                                 <h3 className="text-xl font-bold mb-2 text-blue-800">Active Recall</h3>
+<<<<<<< HEAD
                                 <p className="text-gray-800">
+=======
+                                <p>
+>>>>>>> 9e8b03c4c11e3fee722852612c1ccd6987ae5506
                                     Our games reinforce learning by requiring you to actively recall fretboard positions, dramatically improving retention and recall speed.
                                 </p>
                             </div>
                             <div className="bg-green-50 p-6 rounded-lg">
                                 <h3 className="text-xl font-bold mb-2 text-green-800">Spaced Repetition</h3>
+<<<<<<< HEAD
                                 <p className="text-gray-800">
+=======
+                                <p>
+>>>>>>> 9e8b03c4c11e3fee722852612c1ccd6987ae5506
                                     Exercises strategically repeat concepts at optimal intervals to maximize long-term memory and ensure lasting progress.
                                 </p>
                             </div>
                             <div className="bg-purple-50 p-6 rounded-lg">
                                 <h3 className="text-xl font-bold mb-2 text-purple-800">Visual Learning</h3>
+<<<<<<< HEAD
                                 <p className="text-gray-800">
+=======
+                                <p>
+>>>>>>> 9e8b03c4c11e3fee722852612c1ccd6987ae5506
                                     Engaging visualizations help create clear mental maps of the guitar neck, facilitating rapid note identification.
                                 </p>
                             </div>
                             <div className="bg-orange-50 p-6 rounded-lg">
                                 <h3 className="text-xl font-bold mb-2 text-orange-800">Gamification</h3>
+<<<<<<< HEAD
                                 <p className="text-gray-800">
+=======
+                                <p>
+>>>>>>> 9e8b03c4c11e3fee722852612c1ccd6987ae5506
                                     Turning fretboard memorization into enjoyable games increases motivation, engagement, and practice consistency.
                                 </p>
                             </div>
@@ -86,7 +111,11 @@ const About: React.FC = () => {
                     </section>
                 </div>
             </div>
+<<<<<<< HEAD
         // </Layout>
+=======
+        </Layout>
+>>>>>>> 9e8b03c4c11e3fee722852612c1ccd6987ae5506
     );
 };
 
