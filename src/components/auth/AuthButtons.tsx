@@ -31,6 +31,7 @@ export const AuthButtons: React.FC<AuthButtonsProps> = ({
     return (
         <div className={`auth-buttons ${mode === 'vertical' ? 'flex flex-col space-y-3' : 'flex space-x-3'} ${className}`}>
             <div>
+                {/* Removed the disabled prop as it's not supported by GoogleLogin */}
                 <GoogleLogin
                     onSuccess={handleGoogleSuccess}
                     onError={handleGoogleError}
@@ -39,8 +40,9 @@ export const AuthButtons: React.FC<AuthButtonsProps> = ({
                     text="signin_with"
                     theme="filled_blue"
                     locale="en"
-                    disabled={isLoading}
                 />
+                {/* Show loading state outside the component if needed */}
+                {isLoading && <div className="mt-2 text-sm text-gray-400">Loading...</div>}
             </div>
         </div>
     );

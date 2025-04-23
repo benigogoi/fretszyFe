@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { AuthContextType, User } from './types';
+import { AuthContextType } from './types'; // Removed unused User import
 
 // Create default context values
 const defaultAuthContext: AuthContextType = {
@@ -9,7 +9,8 @@ const defaultAuthContext: AuthContextType = {
     error: null,
     login: async () => { throw new Error('login not implemented'); },
     logout: async () => { throw new Error('logout not implemented'); },
-    getUser: () => null
+    getUser: () => null,
+    refreshAuthState: async () => { throw new Error('refreshAuthState not implemented'); } // Added the missing property
 };
 
 // Create the auth context

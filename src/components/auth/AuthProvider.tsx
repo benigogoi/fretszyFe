@@ -103,7 +103,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     credential?: string,
     email?: string,
     password?: string
-  ) => {
+  ): Promise<void> => { // Changed return type to Promise<void> to match the type definition
     setAuthState((prev) => ({ ...prev, isLoading: true, error: null }));
 
     try {
@@ -132,8 +132,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         isLoading: false,
         error: null,
       });
-
-      return user;
+      
+      // No return value needed (void)
     } catch (error: any) {
       console.error(`${provider} login error:`, error);
 
@@ -194,4 +194,4 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-};
+};  

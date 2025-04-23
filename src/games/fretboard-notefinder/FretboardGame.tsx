@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import confetti from "canvas-confetti";
 import { Link, useNavigate } from "react-router-dom";
 import { updateTitle } from "../../utils/SEOUtils";
@@ -20,6 +20,15 @@ import {
   formatDate,
 } from "../../services/gameScoreService";
 
+// Define interface for target note
+interface TargetNote {
+  stringNumber: number;
+  fretNumber: number;
+  label: string;
+  actualNote: string;
+  color: string;
+}
+
 function FretboardGame() {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
@@ -33,7 +42,9 @@ function FretboardGame() {
     const animationEnd = Date.now() + duration;
 
     // Function for the confetti animation frame
-    const randomInRange = (min, max) => Math.random() * (max - min) + min;
+    const randomInRange = (min: number, max: number): number => {
+      return Math.random() * (max - min) + min;
+    };
 
     const confettiAnimation = () => {
       const timeLeft = animationEnd - Date.now();
@@ -85,15 +96,15 @@ function FretboardGame() {
   // Game state
   const [gameActive, setGameActive] = useState(false);
   const [gameEnded, setGameEnded] = useState(false);
-  const [targetNote, setTargetNote] = useState(null);
+  const [targetNote, setTargetNote] = useState<TargetNote | null>(null);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60); // 60 seconds timer
   const [timerActive, setTimerActive] = useState(false);
-  const [guessResult, setGuessResult] = useState(null);
+  const [guessResult, setGuessResult] = useState<boolean | null>(null);
 
   // Best score state
   const [bestScore, setBestScore] = useState(0);
-  const [bestScoreDate, setBestScoreDate] = useState(null);
+  const [bestScoreDate, setBestScoreDate] = useState<string | null>(null);
 
   // Define number of frets to show
   const numberOfFrets = fretLength;
@@ -177,13 +188,13 @@ function FretboardGame() {
 
   // Timer effect
   useEffect(() => {
-    let interval = null;
+    let interval: number | null = null;
 
     if (gameActive && timerActive) {
-      interval = setInterval(() => {
+      interval = window.setInterval(() => {
         setTimeLeft((prevTime) => {
           if (prevTime <= 1) {
-            clearInterval(interval);
+            if (interval) clearInterval(interval);
             setTimerActive(false);
             endGame();
             return 0;
@@ -201,7 +212,7 @@ function FretboardGame() {
   }, [gameActive, timerActive]);
 
   // Generate a random target note
-  const generateRandomNote = () => {
+  const generateRandomNote = (): TargetNote => {
     const stringNumber = Math.floor(
       Math.random() * (startString - endString + 1) + endString
     );
@@ -323,7 +334,7 @@ function FretboardGame() {
   };
 
   // Handle user's note guess
-  const handleNoteGuess = (guessedNote) => {
+  const handleNoteGuess = (guessedNote: string) => {
     if (!targetNote || !targetNote.actualNote) return;
 
     const isCorrect = guessedNote === targetNote.actualNote;
@@ -402,14 +413,14 @@ function FretboardGame() {
   ];
 
   // Format time as MM:SS
-  const formatTime = (seconds) => {
+  const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}:${secs < 10 ? "0" + secs : secs}`;
   };
 
   // String labels for the simplified mobile view
-  const getStringName = (num) => {
+  const getStringName = (num: number): string => {
     const labels = [
       "1st (high E)",
       "2nd (B)",
