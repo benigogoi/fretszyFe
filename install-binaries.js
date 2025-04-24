@@ -6,7 +6,7 @@ console.log('Ensuring native binaries are installed...');
 
 try {
   // Try to directly install the specific binary packages that are causing issues
-  execSync('npm install @rollup/rollup-linux-x64-gnu @tailwindcss/oxide-linux-x64-gnu --no-save', {
+  execSync('npm install @rollup/rollup-linux-x64-gnu @tailwindcss/oxide-linux-x64-gnu lightningcss-linux-x64-gnu --no-save', {
     stdio: 'inherit'
   });
   
