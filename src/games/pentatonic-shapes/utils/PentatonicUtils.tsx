@@ -7,9 +7,6 @@ import {
   PATTERN_NAMES 
 } from "./ScalePatternData";
 
-// All possible notes in western music (using sharps notation)
-const _ALL_NOTES = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
-
 /**
  * Generate all notes for a pentatonic pattern
  */
@@ -99,16 +96,16 @@ export const generatePentatonicPattern = (
       }
       
       // Get the actual note at this position
-      const _noteName = getNoteAtPosition(stringNumber, actualFret);
+      const noteAtPosition = getNoteAtPosition(stringNumber, actualFret);
       
       // Check if this is a root note
-      const isRoot = _noteName === rootNote;
+      const isRoot = noteAtPosition === rootNote;
       
       // Add the note to our collection
       notes.push({
         stringNumber,
         fretNumber: actualFret,
-        label: isRoot ? _noteName : "", // Only show label for root notes
+        label: isRoot ? noteAtPosition : "", // Only show label for root notes
         color: isRoot ? "#ff8c00" : "#ffffff", // Orange for roots, white for other notes
         isRoot,
         patternId: typeof pattern === 'string' ? parseInt(pattern) : pattern
@@ -202,9 +199,6 @@ export const generateConnectorNotes = (
       const octavesToShift = Math.ceil((startFret - actualFret) / 12);
       actualFret += octavesToShift * 12;
     }
-    
-    // Get the actual note at this position
-    const _noteName = getNoteAtPosition(string, actualFret);
     
     // Add the connector note
     notes.push({

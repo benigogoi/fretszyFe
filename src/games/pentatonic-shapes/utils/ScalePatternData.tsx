@@ -1,5 +1,4 @@
 // Data definitions for all scale patterns
-import { PatternPosition } from "../types/PentatonicTypes";
 
 // Pattern definitions with ABSOLUTE fret positions for A minor
 // These will be transposed to other keys as needed
@@ -135,27 +134,6 @@ const A_MAJOR_PATTERNS = {
     { string: 5, frets: [14, 16] },       // A string (B, C#)
     { string: 6, frets: [14, 17] },       // Low E string (E, A)
   ],
-};
-
-// Special cases for positioning on the fretboard
-const _SPECIAL_SCALE_POSITIONS = {
-  minor: {
-    // E minor should be at 12th fret, not 0th fret
-    'E': 12,
-    // F, F#, G, G# should be at their respective fret positions on low E
-    'F': 1,
-    'F#': 2,
-    'G': 3,
-    'G#': 4
-  },
-  major: {
-    // Similar special cases for major scales
-    'E': 12,
-    'F': 1,
-    'F#': 2,
-    'G': 3,
-    'G#': 4
-  }
 };
 
 // Create pentatonic pattern exports with both minor and major
