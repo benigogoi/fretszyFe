@@ -1,5 +1,5 @@
 {
-    "buildCommand": "npm install --platform=linux --arch=x64 --force && npm run build",
+    "buildCommand": "node install-binaries.js && npm run build",
     "installCommand": "npm install --platform=linux --arch=x64 --force",
     "framework": "vite",
     "redirects": [

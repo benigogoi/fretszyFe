@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "preinstall": "node ./install-binaries.js",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -26,6 +27,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
+    "@rollup/rollup-linux-x64-gnu": "4.38.0",
+    "@tailwindcss/oxide-linux-x64-gnu": "4.0.17",
     "@types/node": "^22.13.11",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
