@@ -3,22 +3,23 @@
     "installCommand": "npm install --platform=linux --arch=x64 --force",
     "framework": "vite",
     "redirects": [
-        {
-            "source": "/:path*",
-            "has": [
-                {
-                    "type": "host",
-                    "value": "www.fretszy.com"
-                }
-            ],
-            "destination": "https://fretszy.com/:path*",
-            "permanent": true
-        }
+      {
+        "source": "/:path*",
+        "has": [
+          {
+            "type": "host",
+            "value": "fretszy.com"
+          }
+        ],
+        "destination": "https://www.fretszy.com/:path*",
+        "permanent": true
+      }
     ],
     "rewrites": [
-        {
-            "source": "/(.*)",
-            "destination": "/index.html"
-        }
+      {
+        "source": "/(.*)",
+        "destination": "/index.html"
+      }
     ]
-}
+  }
+  
