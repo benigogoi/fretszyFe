@@ -6,6 +6,19 @@ import featuredImage from '../assets/blogImage1.jpg';
 import fastLearningImage from '../assets/blogImg6.jpg';
 import fretboardMemoryImage from '../assets/blogImg4.jpg';
 import scaleVisualizationImage from '../assets/blogImg5.jpg';
+import sixthStringNotes from '../assets/6thStringNotes.png';
+
+const imageMap: Record<string, string> = {
+  '@@sixthStringNotes': sixthStringNotes,
+};
+
+const replaceImagePlaceholders = (html: string): string => {
+  let updated = html;
+  Object.entries(imageMap).forEach(([key, value]) => {
+    updated = updated.replace(new RegExp(key, 'g'), value);
+  });
+  return updated;
+};
 
 // Define types for blog posts
 interface BlogPostData {
@@ -219,7 +232,7 @@ const blogPostsData: BlogPostData[] = [
       
       <div class="my-8 text-center">
         <p class="mb-4">Ready to put these concepts into practice?</p>
-        <a href="/" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+        <a href="/games/fretboard" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
           Try Fretszy's Interactive Fretboard Trainer
         </a>
       </div>
@@ -421,7 +434,7 @@ const blogPostsData: BlogPostData[] = [
       
       <div class="my-8 text-center">
         <p class="mb-4">Ready to master your fretboard note knowledge?</p>
-        <a href="/" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+        <a href="/tools" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
           Start Training with Fretszy Today
         </a>
       </div>
