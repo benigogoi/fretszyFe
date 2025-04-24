@@ -39,10 +39,10 @@ export const loginWithGoogle = async (credential: string): Promise<User> => {
         console.log('Sending Google credential to backend:', credential.substring(0, 20) + '...');
         
         // Log the API URL being used
-        console.log('API URL:', `${API_URL}/auth/google/`);
+        console.log('API URL:', `${API_URL}/api/auth/google/`);
         
         // Send Google credential to backend for verification
-        const response = await axios.post(`${API_URL}/auth/google/`, { credential });
+        const response = await axios.post(`${API_URL}/api/auth/google/`, { credential });
         
         console.log('Backend response:', response.data);
         
@@ -76,7 +76,7 @@ export const registerWithEmail = async (userData: {
     lastName?: string;
 }): Promise<User> => {
     try {
-        const response = await axios.post(`${API_URL}/auth/register/`, {
+        const response = await axios.post(`${API_URL}/api/auth/register/`, {
             email: userData.email,
             password: userData.password,
             first_name: userData.firstName || '',
@@ -108,7 +108,7 @@ export const registerWithEmail = async (userData: {
 // Login with email and password
 export const loginWithEmail = async (email: string, password: string): Promise<User> => {
     try {
-        const response = await axios.post(`${API_URL}/auth/login/`, {
+        const response = await axios.post(`${API_URL}/api/auth/login/`, {
             email,
             password
         });
@@ -160,7 +160,7 @@ export const refreshUserData = async (): Promise<User | null> => {
     
     try {
         const api = createAxiosInstance();
-        const response = await api.get('/auth/user/');
+        const response = await api.get('/api/auth/user/');
         
         // Map backend user to frontend User type
         const user = mapUserData(response.data);
@@ -183,7 +183,7 @@ export const logout = async (): Promise<void> => {
     try {
         if (isAuthenticated()) {
             const api = createAxiosInstance();
-            await api.post('/auth/logout/');
+            await api.post('/api/auth/logout/');
         }
     } catch (error) {
         console.error('Logout error:', error);

@@ -60,7 +60,7 @@ export const getBestScore = async (
         console.log('Fetching best score with params:', params);
 
         // Make API request with all relevant parameters
-        const response = await authAxios().get('/game-scores/', { params });
+        const response = await authAxios().get('/api/game-scores/', { params });
         
         console.log('Best score API response:', response.data);
         
@@ -130,7 +130,7 @@ export const saveGameScore = async (
         console.log('REQUEST: About to send with body:', requestBody);
         
         // Use fetch API for the request
-        const response = await fetch(`${API_URL}/game-scores/`, {
+        const response = await fetch(`${API_URL}/api/game-scores/`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
