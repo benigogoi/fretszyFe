@@ -1,5 +1,5 @@
 // Data definitions for all scale patterns
-import { ScaleType } from "../types/PentatonicTypes";
+import { PatternPosition } from "../types/PentatonicTypes";
 
 // Pattern definitions with ABSOLUTE fret positions for A minor
 // These will be transposed to other keys as needed
@@ -138,7 +138,7 @@ const A_MAJOR_PATTERNS = {
 };
 
 // Special cases for positioning on the fretboard
-const SPECIAL_SCALE_POSITIONS = {
+const _SPECIAL_SCALE_POSITIONS = {
   minor: {
     // E minor should be at 12th fret, not 0th fret
     'E': 12,

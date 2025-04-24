@@ -1,5 +1,5 @@
 // src/pages/Settings.tsx
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useAuth } from '../components/auth/useAuth';
 
 const Settings: React.FC = () => {
@@ -148,15 +148,17 @@ const Settings: React.FC = () => {
                 </form>
             </div>
 
-            <style jsx>{`
-        .toggle-checkbox:checked {
-          right: 0;
-          border-color: #68D391;
-        }
-        .toggle-label {
-          transition: background-color 0.2s ease;
-        }
-      `}</style>
+            <style>
+            {`
+                .toggle-checkbox:checked {
+                  right: 0;
+                  border-color: #68D391;
+                }
+                .toggle-label {
+                  transition: background-color 0.2s ease;
+                }
+            `}
+            </style>
         </div>
     );
 };

@@ -1,18 +1,17 @@
 // Core utilities for pentatonic scales
 import { ScaleType, NoteData, PatternPosition } from "../types/PentatonicTypes";
-import { getNoteAtPosition, NOTE_COLORS } from "../../fretboard-notefinder/utils/FretboardUtils";
+import { getNoteAtPosition } from "../../fretboard-notefinder/utils/FretboardUtils";
 import { 
   PENTATONIC_PATTERNS, 
-  ROOT_POSITIONS, 
   CONNECTOR_POSITIONS, 
   PATTERN_NAMES 
 } from "./ScalePatternData";
 
 // All possible notes in western music (using sharps notation)
-const ALL_NOTES = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
+const _ALL_NOTES = ['A', 'A#', 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#'];
 
 /**
- * Generate all notes for a pentatonic scale pattern
+ * Generate all notes for a pentatonic pattern
  */
 export const generatePentatonicPattern = (
   rootNote: string,
@@ -100,16 +99,16 @@ export const generatePentatonicPattern = (
       }
       
       // Get the actual note at this position
-      const noteName = getNoteAtPosition(stringNumber, actualFret);
+      const _noteName = getNoteAtPosition(stringNumber, actualFret);
       
       // Check if this is a root note
-      const isRoot = noteName === rootNote;
+      const isRoot = _noteName === rootNote;
       
       // Add the note to our collection
       notes.push({
         stringNumber,
         fretNumber: actualFret,
-        label: isRoot ? noteName : "", // Only show label for root notes
+        label: isRoot ? _noteName : "", // Only show label for root notes
         color: isRoot ? "#ff8c00" : "#ffffff", // Orange for roots, white for other notes
         isRoot,
         patternId: typeof pattern === 'string' ? parseInt(pattern) : pattern
@@ -134,7 +133,7 @@ export const generateConnectorNotes = (
   const connectorKey = `${pattern1}-${pattern2}`;
   
   // Get connector positions
-  const connectors = CONNECTOR_POSITIONS[connectorKey];
+  const connectors = CONNECTOR_POSITIONS[connectorKey as keyof typeof CONNECTOR_POSITIONS];
   if (!connectors) return [];
   
   const notes: NoteData[] = [];
@@ -205,7 +204,7 @@ export const generateConnectorNotes = (
     }
     
     // Get the actual note at this position
-    const noteName = getNoteAtPosition(string, actualFret);
+    const _noteName = getNoteAtPosition(string, actualFret);
     
     // Add the connector note
     notes.push({
