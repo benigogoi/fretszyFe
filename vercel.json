@@ -1,6 +1,6 @@
 {
-    "buildCommand": "npm install --force && npm run build",
-    "installCommand": "npm install --force",
+    "buildCommand": "npm install --platform=linux --arch=x64 --force && npm run build",
+    "installCommand": "npm install --platform=linux --arch=x64 --force",
     "framework": "vite",
     "redirects": [
         {
