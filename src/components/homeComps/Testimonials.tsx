@@ -1,5 +1,4 @@
 // src/components/homeComps/Testimonials.tsx
-import React from "react";
 
 const Testimonials = () => {
   // Testimonials data

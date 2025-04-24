@@ -1,5 +1,4 @@
 // src/components/homeComps/HowItWorks.tsx
-import React from 'react';
 
 const HowItWorks = () => {
   // Steps data

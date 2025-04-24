@@ -1,5 +1,4 @@
 // src/components/homeComps/WhyChoose.tsx
-import React from 'react';
 
 const WhyChoose = () => {
   // Benefits data
