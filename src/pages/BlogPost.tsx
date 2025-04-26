@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
 // import Layout from '../components/layout/Layout';
-// import Button from '../components/ui/Button';  
-import featuredImage from '../assets/blogImage1.jpg';
-import fastLearningImage from '../assets/blogImg6.jpg';
-import fretboardMemoryImage from '../assets/blogImg4.jpg';
-import scaleVisualizationImage from '../assets/blogImg5.jpg';
-
+// import Button from '../components/ui/Button';
+import featuredImage from "../assets/blogImage1.jpg";
+import fastLearningImage from "../assets/blogImg6.jpg";
+import fretboardMemoryImage from "../assets/blogImg4.jpg";
+import scaleVisualizationImage from "../assets/blogImg5.jpg";
+import sixtStringNotes from "../assets/6thStringNotes.png";
 // Define types for blog posts
 interface BlogPostData {
   id: string;
@@ -36,14 +36,15 @@ interface BlogPostParams {
 
 const blogPostsData: BlogPostData[] = [
   {
-    id: 'master-low-e-string',
-    title: 'The Fast Track to Fretboard Mastery: Start with the Low E String',
-    date: 'March 25, 2025',
-    author: 'Sarah Johnson',
-    authorTitle: 'Guitar Instructor & Fretboard Specialist',
-    authorBio: 'Sarah Johnson is a professional guitarist with over 15 years of teaching experience. She specializes in helping guitarists of all levels master the fretboard through practical, intuitive methods. Her approach combines traditional music theory with innovative learning techniques.',
-    category: 'Learning Techniques',
-    readingTime: '7 min read',
+    id: "master-low-e-string",
+    title: "The Fast Track to Fretboard Mastery: Start with the Low E String",
+    date: "March 25, 2025",
+    author: "Sarah Johnson",
+    authorTitle: "Guitar Instructor & Fretboard Specialist",
+    authorBio:
+      "Sarah Johnson is a professional guitarist with over 15 years of teaching experience. She specializes in helping guitarists of all levels master the fretboard through practical, intuitive methods. Her approach combines traditional music theory with innovative learning techniques.",
+    category: "Learning Techniques",
+    readingTime: "7 min read",
     image: featuredImage,
     content: `
       <p class="lead">
@@ -69,7 +70,7 @@ const blogPostsData: BlogPostData[] = [
       
       <div class="my-8 p-6 bg-gray-50 rounded-lg">
         <img 
-          src="/src/assets/6thStringNotes.png"
+          src={octaveRelationImage}
           alt="Low E String Notes Diagram" 
           class="w-full rounded mb-4"
         />
@@ -226,34 +227,35 @@ const blogPostsData: BlogPostData[] = [
     `,
     relatedPosts: [
       {
-        id: 'importance-of-note-memorization',
-        title: 'Why Memorizing the Notes is Essential for Guitar Excellence',
-        category: 'Music Theory',
-        image: fretboardMemoryImage
+        id: "importance-of-note-memorization",
+        title: "Why Memorizing the Notes is Essential for Guitar Excellence",
+        category: "Music Theory",
+        image: fretboardMemoryImage,
       },
       {
-        id: 'scale-visualization-techniques',
-        title: 'How Note Knowledge Transforms Scale Visualization',
-        category: 'Scale Patterns',
-        image: scaleVisualizationImage
+        id: "scale-visualization-techniques",
+        title: "How Note Knowledge Transforms Scale Visualization",
+        category: "Scale Patterns",
+        image: scaleVisualizationImage,
       },
       {
-        id: 'learn-scales-faster',
-        title: 'Master Scales in Half the Time with Proper Note Knowledge',
-        category: 'Practice Techniques',
-        image: fastLearningImage
-      }
-    ]
+        id: "learn-scales-faster",
+        title: "Master Scales in Half the Time with Proper Note Knowledge",
+        category: "Practice Techniques",
+        image: fastLearningImage,
+      },
+    ],
   },
   {
-    id: 'importance-of-note-memorization',
-    title: 'Why Memorizing the Notes is Essential for Guitar Excellence',
-    date: 'March 18, 2025',
-    author: 'Michael Chen',
-    authorTitle: 'Music Theorist & Guitar Educator',
-    authorBio: 'Michael Chen is a music theorist and multi-instrumentalist with a passion for making complex musical concepts accessible to players of all levels. With a background in classical training and modern performance, he brings a unique perspective to guitar education.',
-    category: 'Music Theory',
-    readingTime: '6 min read',
+    id: "importance-of-note-memorization",
+    title: "Why Memorizing the Notes is Essential for Guitar Excellence",
+    date: "March 18, 2025",
+    author: "Michael Chen",
+    authorTitle: "Music Theorist & Guitar Educator",
+    authorBio:
+      "Michael Chen is a music theorist and multi-instrumentalist with a passion for making complex musical concepts accessible to players of all levels. With a background in classical training and modern performance, he brings a unique perspective to guitar education.",
+    category: "Music Theory",
+    readingTime: "6 min read",
     image: fretboardMemoryImage,
     content: `
       <p class="lead">
@@ -428,26 +430,528 @@ const blogPostsData: BlogPostData[] = [
     `,
     relatedPosts: [
       {
-        id: 'master-low-e-string',
-        title: 'The Fast Track to Fretboard Mastery: Start with the Low E String',
-        category: 'Learning Techniques',
-        image: featuredImage
+        id: "master-low-e-string",
+        title:
+          "The Fast Track to Fretboard Mastery: Start with the Low E String",
+        category: "Learning Techniques",
+        image: featuredImage,
       },
       {
-        id: 'scale-visualization-techniques',
-        title: 'How Note Knowledge Transforms Scale Visualization',
-        category: 'Scale Patterns',
-        image: scaleVisualizationImage
+        id: "scale-visualization-techniques",
+        title: "How Note Knowledge Transforms Scale Visualization",
+        category: "Scale Patterns",
+        image: scaleVisualizationImage,
       },
       {
-        id: 'learn-scales-faster',
-        title: 'Master Scales in Half the Time with Proper Note Knowledge',
-        category: 'Practice Techniques',
-        image: fastLearningImage
-      }
-    ]
+        id: "learn-scales-faster",
+        title: "Master Scales in Half the Time with Proper Note Knowledge",
+        category: "Practice Techniques",
+        image: fastLearningImage,
+      },
+    ],
   },
-  // Additional blog posts data removed for brevity
+  {
+    id: "scale-visualization-techniques",
+    title: "How Note Knowledge Transforms Scale Visualization",
+    date: "March 10, 2025",
+    author: "Sarah Johnson",
+    authorTitle: "Guitar Instructor & Fretboard Specialist",
+    authorBio:
+      "Sarah Johnson is a professional guitarist with over 15 years of teaching experience. She specializes in helping guitarists of all levels master the fretboard through practical, intuitive methods. Her approach combines traditional music theory with innovative learning techniques.",
+    category: "Scale Patterns",
+    readingTime: "8 min read",
+    image: scaleVisualizationImage,
+    content: `
+      <p class="lead">
+        For many guitarists, scales are memorized as fixed patterns or shapes on the fretboard. While this approach works initially, it creates significant limitations in the long run. This article explores how understanding the actual notes within scales transforms the way you visualize and use them.
+      </p>
+      
+      <p>
+        When you move beyond pattern-based thinking to note-based understanding, scales become flexible tools for expression rather than rigid patterns to follow.
+      </p>
+      
+      <h2>The Limitation of Pattern-Based Scale Learning</h2>
+      
+      <p>
+        The traditional approach to learning guitar scales typically involves memorizing patterns like these:
+      </p>
+      
+      <div class="my-8 p-6 bg-gray-50 rounded-lg">
+        <img src="/src/assets/traditionalScale.png" alt="Traditional Scale Patterns" class="w-full rounded mb-4" />
+        <p class="text-sm text-center text-gray-600">Standard pattern-based approach to the pentatonic scale</p>
+      </div>
+      
+      <p>
+        This method has significant drawbacks:
+      </p>
+      
+      <ul>
+        <li><strong>Position Lock:</strong> You become tied to specific positions on the fretboard</li>
+        <li><strong>Scale Isolation:</strong> Each scale exists as a separate entity with no clear connection to others</li>
+        <li><strong>Limited Creativity:</strong> Your improvisation tends to follow predictable paths within known shapes</li>
+        <li><strong>Challenging Key Changes:</strong> Changing keys requires learning entirely new patterns rather than applying consistent principles</li>
+      </ul>
+      
+      <div class="my-8 p-5 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
+        <h3 class="text-xl font-bold mb-3">Common Frustration</h3>
+        <p>
+          "I know all five pentatonic patterns, but when I try to improvise, I get stuck in one position and end up playing the same licks over and over."
+        </p>
+      </div>
+      
+      <h2>The Note-Based Approach to Scale Visualization</h2>
+      
+      <p>
+        When you understand scales in terms of their actual notes rather than just patterns, your perspective shifts dramatically:
+      </p>
+      
+      <div class="my-8 p-6 bg-gray-50 rounded-lg">
+        <img src="/src/assets/aMinorPent.png" alt="Note-Based Scale Approach" class="w-full rounded mb-4" />
+        <p class="text-sm text-center text-gray-600">Visualizing the A minor pentatonic scale by notes across the entire fretboard</p>
+      </div>
+      
+      <p>
+        With this approach, you see the entire fretboard as a unified space where:
+      </p>
+      
+      <ul>
+        <li>Each scale is defined by its specific notes rather than finger patterns</li>
+        <li>You can find scale tones anywhere on the neck, not just in predefined positions</li>
+        <li>The relationships between different scales become clear and logical</li>
+        <li>Changing keys is simply a matter of shifting your frame of reference</li>
+      </ul>
+      
+      <h2>Visualizing Scales Through Note Formulas</h2>
+      
+      <p>
+        Every scale has a formula that determines which notes are included. When you understand these formulas, you can construct any scale in any key anywhere on the fretboard.
+      </p>
+      
+      <p>
+        For example, a major scale has the formula: 1-2-3-4-5-6-7 (W-W-H-W-W-W-H where W = whole step and H = half step)
+      </p>
+      
+      <div class="my-8 p-6 bg-gray-50 rounded-lg">
+        <img src="/src/assets/cMajorScale.png" alt="C Major Scale Formula" class="w-full rounded mb-4" />
+        <p class="text-sm text-center text-gray-600">C Major Scale: C-D-E-F-G-A-B</p>
+      </div>
+      
+      <p>
+        Instead of memorizing the C major scale as a pattern, you understand it as the collection of notes C, D, E, F, G, A, and B. With fretboard note knowledge, you can find these notes anywhere on the neck, allowing for much greater flexibility.
+      </p>
+      
+      <div class="my-8 p-5 bg-green-50 rounded-lg border-l-4 border-green-500">
+        <h3 class="text-xl font-bold mb-3">Key Insight</h3>
+        <p>
+          When you know the notes on your fretboard, you can construct any scale in any position without having to memorize numerous separate patterns.
+        </p>
+      </div>
+      
+      <h2>Breaking Free from Position Playing</h2>
+      
+      <p>
+        Note-based scale visualization enables three-dimensional thinking on the fretboard:
+      </p>
+      
+      <h3>Horizontal Movement (Along Strings)</h3>
+      
+      <p>
+        By knowing which notes belong to your scale, you can play horizontally along any string while staying in the scale. This creates fluid, vocal-like phrasing that isn't possible when confined to vertical patterns.
+      </p>
+      
+      <h3>Vertical Movement (Across Strings)</h3>
+      
+      <p>
+        You can move freely between strings while maintaining your position on the neck, creating rich, complex phrases without large hand movements.
+      </p>
+      
+      <h3>Diagonal Movement (Position Shifts)</h3>
+      
+      <p>
+        You can smoothly transition between neck positions by following the scale tones diagonally across the fretboard, connecting traditional "box patterns" with musical phrases.
+      </p>
+      
+      <div class="my-8 p-6 bg-gray-50 rounded-lg">
+        <img src="/src/assets/3D.png" alt="Three-Dimensional Fretboard Movement" class="w-full rounded mb-4" />
+        <p class="text-sm text-center text-gray-600">Visualizing horizontal, vertical, and diagonal movement across the fretboard</p>
+      </div>
+      
+      <h2>Practical Visualization Exercises</h2>
+      
+      <p>
+        Here are some exercises to develop your note-based scale visualization:
+      </p>
+      
+      <h3>Exercise 1: Single String Scales</h3>
+      
+      <p>
+        Play a complete scale on a single string, naming each note as you play it. This reinforces note locations and scale construction simultaneously.
+      </p>
+      
+      <h3>Exercise 2: Scale Degree Targeting</h3>
+      
+      <p>
+        Choose a scale degree (e.g., the 3rd of the scale) and find it on every string. This helps you visualize important tones throughout the fretboard.
+      </p>
+      
+      <h3>Exercise 3: Cross-String Scale Sequences</h3>
+      
+      <p>
+        Practice playing scale sequences that move across strings rather than within position shapes. For example, play a three-note-per-string pattern but change strings after every three notes.
+      </p>
+      
+      <div class="my-8 p-5 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+        <h3 class="text-xl font-bold mb-3">Practice Tip</h3>
+        <p>
+          When practicing these exercises, focus on the note names rather than finger patterns. Say the note names out loud as you play them to reinforce the connection.
+        </p>
+      </div>
+      
+      <h2>Connecting Scales Across the Fretboard</h2>
+      
+      <p>
+        With note-based visualization, you begin to see how different scale patterns connect into a unified whole:
+      </p>
+      
+      <ul>
+        <li>The standard five pentatonic positions become a single, connected scale across the entire fretboard</li>
+        <li>The CAGED system makes intuitive sense as different ways of playing the same collection of notes</li>
+        <li>Modal scales are clearly related to their parent scales through their shared notes</li>
+      </ul>
+      
+      <div class="my-8 p-6 bg-gray-50 rounded-lg">
+        <img src="/src/assets/connectedScales.png" alt="Connected Scale Positions" class="w-full rounded mb-4" />
+        <p class="text-sm text-center text-gray-600">Visualizing how traditional scale positions connect into a unified whole</p>
+      </div>
+      
+      <h2>Practical Applications in Real Music</h2>
+      
+      <p>
+        Note-based scale visualization transforms your playing in these practical ways:
+      </p>
+      
+      <h3>More Musical Phrasing</h3>
+      
+      <p>
+        When you see scales as collections of notes rather than patterns, your phrasing becomes more musical and less mechanical. You can follow melodic ideas wherever they lead rather than being constrained by position shapes.
+      </p>
+      
+      <h3>Seamless Position Changes</h3>
+      
+      <p>
+        Moving between neck positions becomes fluid when you can visualize how scale tones connect across the fretboard, eliminating those awkward jumps that interrupt musical flow.
+      </p>
+      
+      <h3>Creative Improvisation</h3>
+      
+      <p>
+        With the entire fretboard available to you, your improvisational vocabulary expands dramatically. You can construct phrases based on musical ideas rather than being limited by memorized patterns.
+      </p>
+      
+      <div class="my-8 p-5 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+        <h3 class="text-xl font-bold mb-3">Musical Growth</h3>
+        <p>
+          "The moment I started thinking in terms of notes instead of patterns, my solos stopped sounding like exercises and started sounding like music."
+        </p>
+      </div>
+      
+      <h2>Conclusion: The Unified Fretboard</h2>
+      
+      <p>
+        Note-based scale visualization transforms the fretboard from a collection of disconnected patterns into a unified musical space. This shift in perspective is one of the most significant steps in the development of an advanced guitarist.
+      </p>
+      
+      <p>
+        While it requires more initial investment than simply memorizing patterns, the musical freedom and creative possibilities it unlocks are immeasurable. It's the difference between reading phonetically and understanding the meaning of words.
+      </p>
+      
+      <p>
+        To begin this transformation, prioritize learning the notes on your fretboard, understand scale formulas, and practice visualizing scales as collections of notes rather than finger patterns.
+      </p>
+      
+      <div class="my-8 text-center">
+        <p class="mb-4">Ready to transform your scale visualization?</p>
+        <a href="/" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+          Try Fretszy's Interactive Scale Trainer
+        </a>
+      </div>
+    `,
+    relatedPosts: [
+      {
+        id: "master-low-e-string",
+        title:
+          "The Fast Track to Fretboard Mastery: Start with the Low E String",
+        category: "Learning Techniques",
+        image: featuredImage,
+      },
+      {
+        id: "importance-of-note-memorization",
+        title: "Why Memorizing the Notes is Essential for Guitar Excellence",
+        category: "Music Theory",
+        image: fretboardMemoryImage,
+      },
+      {
+        id: "learn-scales-faster",
+        title: "Master Scales in Half the Time with Proper Note Knowledge",
+        category: "Practice Techniques",
+        image: fastLearningImage,
+      },
+    ],
+  },
+  {
+    id: "learn-scales-faster",
+    title: "Master Scales in Half the Time with Proper Note Knowledge",
+    date: "March 5, 2025",
+    author: "Alex Rivera",
+    authorTitle: "Guitar Performance Coach & Session Player",
+    authorBio:
+      "Alex Rivera is a professional session guitarist and performance coach with over 20 years of experience. He has toured internationally and recorded with numerous artists across multiple genres. His teaching approach focuses on efficiency and practical application.",
+    category: "Practice Techniques",
+    readingTime: "5 min read",
+    image: fastLearningImage,
+    content: `
+      <p class="lead">
+        Learning new scales can be a time-consuming process for guitarists. Traditional methods often involve memorizing patterns for each new scale separately, requiring weeks of practice before achieving fluency. But what if there was a more efficient approach?
+      </p>
+      
+      <p>
+        This article reveals how proper note knowledge can dramatically accelerate scale learning, allowing you to master new scales in half the time while gaining a deeper understanding of music theory.
+      </p>
+      
+      <h2>The Traditional Approach vs. The Note-Based Method</h2>
+      
+      <div class="my-8 p-6 bg-gray-50 rounded-lg">
+        <img src="/src/assets/traditionalVsNote.png" alt="Traditional vs Note-Based Learning" class="w-full rounded mb-4" />
+        <p class="text-sm text-center text-gray-600">Comparing the efficiency of traditional pattern-based learning with note-based learning</p>
+      </div>
+      
+      <p>
+        Let's compare the two approaches to learning scales:
+      </p>
+      
+      <h3>Traditional Approach</h3>
+      
+      <ol>
+        <li>Memorize a pattern for each position of the scale</li>
+        <li>Practice the patterns until they become automatic</li>
+        <li>Repeat the entire process for each new scale</li>
+        <li>Gradually connect the positions through additional practice</li>
+      </ol>
+      
+      <p>
+        This method treats each scale and position as separate entities to be memorized, which is inherently inefficient and time-consuming.
+      </p>
+      
+      <h3>Note-Based Method</h3>
+      
+      <ol>
+        <li>Understand the formula that defines the scale</li>
+        <li>Apply this formula to your existing knowledge of notes on the fretboard</li>
+        <li>Instantly construct the scale anywhere on the neck</li>
+        <li>Focus practice on fluency rather than basic pattern memorization</li>
+      </ol>
+      
+      <div class="my-8 p-5 bg-blue-50 rounded-lg border-l-4 border-blue-500">
+        <h3 class="text-xl font-bold mb-3">Efficiency Gain</h3>
+        <p>
+          The note-based method front-loads the effort by requiring you to learn the notes on the fretboard, but once you have this foundation, each new scale can be learned in a fraction of the time.
+        </p>
+      </div>
+      
+      <h2>How Note Knowledge Accelerates Scale Learning</h2>
+      
+      <p>
+        Here are the specific ways that fretboard note knowledge speeds up the process of learning scales:
+      </p>
+      
+      <h3>1. Formulas Instead of Patterns</h3>
+      
+      <p>
+        When you know the notes on your fretboard, you can use scale formulas to instantly construct any scale. For example, the major scale formula (W-W-H-W-W-W-H) or (1-2-3-4-5-6-7) can be applied to any root note to create that major scale.
+      </p>
+      
+      <div class="my-8 p-6 bg-gray-50 rounded-lg">
+        <img src="/src/assets/scaleFormula.png" alt="Scale Formula Application" class="w-full rounded mb-4" />
+        <p class="text-sm text-center text-gray-600">Applying the major scale formula to different root notes</p>
+      </div>
+      
+      <h3>2. Universal Application</h3>
+      
+      <p>
+        Once you understand one scale formula, you can apply it in any key anywhere on the fretboard. There's no need to memorize separate patterns for G major, C major, and D major scales—they all use the same formula applied to different root notes.
+      </p>
+      
+      <h3>3. Deeper Understanding</h3>
+      
+      <p>
+        Understanding scales through note relationships gives you insight into how they function musically, not just mechanically. This helps you internalize them more quickly and apply them more effectively in your playing.
+      </p>
+      
+      <div class="my-8 p-5 bg-green-50 rounded-lg border-l-4 border-green-500">
+        <h3 class="text-xl font-bold mb-3">Learning Advantage</h3>
+        <p>
+          Our brains retain information better when we understand the underlying logic rather than memorizing by rote. Scale formulas provide this logical framework.
+        </p>
+      </div>
+      
+      <h2>The Scale Formula System</h2>
+      
+      <p>
+        Here's how to use scale formulas to rapidly learn new scales:
+      </p>
+      
+      <h3>Step 1: Learn Core Formulas</h3>
+      
+      <p>
+        Start by memorizing these essential scale formulas:
+      </p>
+      
+      <ul>
+        <li><strong>Major Scale:</strong> 1-2-3-4-5-6-7 (W-W-H-W-W-W-H)</li>
+        <li><strong>Natural Minor Scale:</strong> 1-2-b3-4-5-b6-b7 (W-H-W-W-H-W-W)</li>
+        <li><strong>Major Pentatonic:</strong> 1-2-3-5-6 (W-W-W+H-W-W+H)</li>
+        <li><strong>Minor Pentatonic:</strong> 1-b3-4-5-b7 (W+H-W-W-W+H-W)</li>
+      </ul>
+      
+      <div class="my-8 p-6 bg-gray-50 rounded-lg">
+        <img src="/src/assets/commonScales.png" alt="Common Scale Formulas" class="w-full rounded mb-4" />
+        <p class="text-sm text-center text-gray-600">Visual representation of the most common scale formulas</p>
+      </div>
+      
+      <h3>Step 2: Apply to Any Root Note</h3>
+      
+      <p>
+        Once you know a formula, you can apply it to any root note. For example, to construct an A minor scale:
+      </p>
+      
+      <ol>
+        <li>Start with the root note A</li>
+        <li>Apply the minor scale formula: 1-2-b3-4-5-b6-b7</li>
+        <li>This gives you: A-B-C-D-E-F-G</li>
+        <li>Find these notes anywhere on the fretboard</li>
+      </ol>
+      
+      <h3>Step 3: Visualize Across the Entire Fretboard</h3>
+      
+      <p>
+        Instead of learning position by position, immediately visualize the scale across the entire neck by finding all instances of the scale notes on each string.
+      </p>
+      
+      <div class="my-8 p-5 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
+        <h3 class="text-xl font-bold mb-3">Practice Focus</h3>
+        <p>
+          With this method, your practice shifts from "What notes are in this pattern?" to "How can I play these notes most efficiently?" This is a higher-level focus that leads to better results.
+        </p>
+      </div>
+      
+      <h2>Practical Example: Learning the Dorian Mode Quickly</h2>
+      
+      <p>
+        Let's apply the note-based method to learn the Dorian mode, a popular scale for jazz and rock improvisation.
+      </p>
+      
+      <p>
+        Traditional approach: Memorize 5-7 different Dorian patterns across the neck.
+      </p>
+      
+      <p>
+        Note-based approach:
+      </p>
+      
+      <ol>
+        <li><strong>Understand the formula:</strong> Dorian is 1-2-b3-4-5-6-b7</li>
+        <li><strong>Apply to a root note:</strong> D Dorian = D-E-F-G-A-B-C</li>
+        <li><strong>Find these notes:</strong> Locate all D, E, F, G, A, B, and C notes across the fretboard</li>
+        <li><strong>Practice connecting them:</strong> Create fluid lines that use these notes in musical ways</li>
+      </ol>
+      
+      <p>
+        With the note-based method, you can become functional with D Dorian in one practice session and then quickly apply the same knowledge to any other Dorian scale (like G Dorian or C Dorian) without starting the learning process from scratch.
+      </p>
+      
+      <div class="my-8 p-6 bg-gray-50 rounded-lg">
+        <img src="/src/assets/DorianMode.png" alt="Dorian Mode Visualization" class="w-full rounded mb-4" />
+        <p class="text-sm text-center text-gray-600">Visualizing the Dorian mode using a note-based approach</p>
+      </div>
+      
+      <h2>Transferring Knowledge Between Scales</h2>
+      
+      <p>
+        One of the biggest advantages of the note-based approach is how easily knowledge transfers between different scales:
+      </p>
+      
+      <h3>Comparing Related Scales</h3>
+      
+      <p>
+        When you understand scales through their formulas, you can easily see relationships between them. For example, once you know that the Dorian mode (1-2-b3-4-5-6-b7) differs from the natural minor scale (1-2-b3-4-5-b6-b7) by just one note (the 6th), you can quickly modify your existing knowledge rather than learning an entirely new pattern.
+      </p>
+      
+      <h3>Building on Existing Knowledge</h3>
+      
+      <p>
+        Each new scale becomes an adjustment to scales you already know rather than a completely new entity to memorize. This compound learning effect dramatically accelerates your progress.
+      </p>
+      
+      <div class="my-8 p-5 bg-purple-50 rounded-lg border-l-4 border-purple-500">
+        <h3 class="text-xl font-bold mb-3">Efficiency Breakthrough</h3>
+        <p>
+          "I spent months learning individual scale patterns. After switching to the note-based method, I mastered three new modes in a single week with better understanding and retention."
+        </p>
+      </div>
+      
+      <h2>Implementation Strategy</h2>
+      
+      <p>
+        To implement this accelerated scale learning approach:
+      </p>
+      
+      <ol>
+        <li><strong>Master fretboard notes first:</strong> If you haven't already, invest time in learning all the notes on the fretboard (see our article "The Fast Track to Fretboard Mastery").</li>
+        <li><strong>Learn core scale formulas:</strong> Memorize the formulas for major, minor, and pentatonic scales.</li>
+        <li><strong>Practice applying formulas:</strong> Regularly practice constructing scales from different root notes.</li>
+        <li><strong>Focus on fluency:</strong> Work on playing the scales smoothly and musically rather than just memorizing positions.</li>
+        <li><strong>Use the Fretszy app:</strong> Practice visualizing scales using our interactive tool designed for note-based learning.</li>
+      </ol>
+      
+      <h2>Conclusion: A Smarter Way to Learn</h2>
+      
+      <p>
+        The note-based approach to scale learning represents a fundamental shift from rote memorization to intelligent understanding. While it requires an initial investment in learning the notes on your fretboard, this foundation pays enormous dividends by allowing you to learn new scales in half the time with better comprehension and retention.
+      </p>
+      
+      <p>
+        This method also aligns with how your brain naturally learns—through patterns, relationships, and understanding rather than disconnected facts. The result is not just faster learning but deeper musicality.
+      </p>
+      
+      <div class="my-8 text-center">
+        <p class="mb-4">Ready to accelerate your scale learning?</p>
+        <a href="/" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
+          Use Fretszy's Scale Learning Tools
+        </a>
+      </div>
+    `,
+    relatedPosts: [
+      {
+        id: "master-low-e-string",
+        title:
+          "The Fast Track to Fretboard Mastery: Start with the Low E String",
+        category: "Learning Techniques",
+        image: featuredImage,
+      },
+      {
+        id: "importance-of-note-memorization",
+        title: "Why Memorizing the Notes is Essential for Guitar Excellence",
+        category: "Music Theory",
+        image: fretboardMemoryImage,
+      },
+      {
+        id: "scale-visualization-techniques",
+        title: "How Note Knowledge Transforms Scale Visualization",
+        category: "Scale Patterns",
+        image: scaleVisualizationImage,
+      },
+    ],
+  },
 ];
 
 const BlogPost: React.FC = () => {
@@ -461,7 +965,7 @@ const BlogPost: React.FC = () => {
       setLoading(true);
 
       // Find the post with matching ID
-      const foundPost = blogPostsData.find(post => post.id === id);
+      const foundPost = blogPostsData.find((post) => post.id === id);
 
       // In a real app, you would handle the case when a post isn't found more gracefully
       if (foundPost) {
@@ -499,9 +1003,15 @@ const BlogPost: React.FC = () => {
       <div className="pt-20 pb-12 bg-gray-900 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto">
-            <div className="bg-red-900 border border-red-700 text-white px-4 py-3 rounded relative" role="alert">
+            <div
+              className="bg-red-900 border border-red-700 text-white px-4 py-3 rounded relative"
+              role="alert"
+            >
               <strong className="font-bold">Post not found!</strong>
-              <span className="block sm:inline"> The blog post you're looking for does not exist.</span>
+              <span className="block sm:inline">
+                {" "}
+                The blog post you're looking for does not exist.
+              </span>
               <div className="mt-4">
                 <Link to="/blog" className="text-blue-400 hover:text-blue-300">
                   ← Back to all posts
@@ -516,17 +1026,22 @@ const BlogPost: React.FC = () => {
 
   // Function to enhance image containers to be more visible
   const enhanceContent = (content: string) => {
-    return content
-      // Replace regular image container backgrounds with a lighter color for contrast
-      .replace(/bg-gray-50/g, 'bg-gray-200')
-      // Adjust text within image captions to be darker for readability
-      .replace(/text-sm text-center text-gray-600/g, 'text-sm text-center text-gray-800')
-      // Replace other colored panels with dark versions
-      .replace(/bg-(blue|green|red|yellow|purple)-50/g, 'bg-$1-900')
-      .replace(/text-(blue|green|red|yellow|purple)-800/g, 'text-$1-300')
-      .replace(/border-(blue|green|red|yellow|purple)-500/g, 'border-$1-700')
-      // Replace regular text
-      .replace(/text-gray-600/g, 'text-gray-300');
+    return (
+      content
+        // Replace regular image container backgrounds with a lighter color for contrast
+        .replace(/bg-gray-50/g, "bg-gray-200")
+        // Adjust text within image captions to be darker for readability
+        .replace(
+          /text-sm text-center text-gray-600/g,
+          "text-sm text-center text-gray-800"
+        )
+        // Replace other colored panels with dark versions
+        .replace(/bg-(blue|green|red|yellow|purple)-50/g, "bg-$1-900")
+        .replace(/text-(blue|green|red|yellow|purple)-800/g, "text-$1-300")
+        .replace(/border-(blue|green|red|yellow|purple)-500/g, "border-$1-700")
+        // Replace regular text
+        .replace(/text-gray-600/g, "text-gray-300")
+    );
   };
 
   return (
@@ -535,9 +1050,13 @@ const BlogPost: React.FC = () => {
         <div className="max-w-3xl mx-auto">
           {/* Breadcrumb */}
           <div className="mb-6 text-sm">
-            <Link to="/" className="text-gray-400 hover:text-blue-400">Home</Link>
+            <Link to="/" className="text-gray-400 hover:text-blue-400">
+              Home
+            </Link>
             <span className="mx-2 text-gray-600">/</span>
-            <Link to="/blog" className="text-gray-400 hover:text-blue-400">Blog</Link>
+            <Link to="/blog" className="text-gray-400 hover:text-blue-400">
+              Blog
+            </Link>
             <span className="mx-2 text-gray-600">/</span>
             <span className="text-gray-300">{post.title}</span>
           </div>
@@ -562,9 +1081,13 @@ const BlogPost: React.FC = () => {
                   </span>
                   <span className="text-gray-400 text-sm">{post.date}</span>
                   <span className="text-gray-500">•</span>
-                  <span className="text-gray-400 text-sm">{post.readingTime}</span>
+                  <span className="text-gray-400 text-sm">
+                    {post.readingTime}
+                  </span>
                 </div>
-                <h1 className="text-3xl md:text-4xl font-bold mb-6">{post.title}</h1>
+                <h1 className="text-3xl md:text-4xl font-bold mb-6">
+                  {post.title}
+                </h1>
 
                 <div className="flex items-center mb-8 pt-4 border-t border-gray-700">
                   {/* Author info hidden by default */}
@@ -573,7 +1096,11 @@ const BlogPost: React.FC = () => {
 
               {/* Blog content with enhanced styling for image visibility */}
               <div className="prose prose-lg prose-invert max-w-none">
-                <div dangerouslySetInnerHTML={{ __html: enhanceContent(post.content) }} />
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: enhanceContent(post.content),
+                  }}
+                />
               </div>
             </div>
           </article>
@@ -583,7 +1110,10 @@ const BlogPost: React.FC = () => {
             <h3 className="text-2xl font-bold mb-6">Related Articles</h3>
             <div className="grid md:grid-cols-3 gap-6">
               {post.relatedPosts.map((relatedPost) => (
-                <div key={relatedPost.id} className="bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
+                <div
+                  key={relatedPost.id}
+                  className="bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300"
+                >
                   {relatedPost.image && (
                     <Link to={`/blog/${relatedPost.id}`}>
                       <img
@@ -610,8 +1140,19 @@ const BlogPost: React.FC = () => {
                       className="text-blue-400 hover:text-blue-300 text-sm font-medium inline-flex items-center"
                     >
                       Read Article
-                      <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                      <svg
+                        className="w-4 h-4 ml-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M14 5l7 7m0 0l-7 7m7-7H3"
+                        ></path>
                       </svg>
                     </Link>
                   </div>
