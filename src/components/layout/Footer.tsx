@@ -37,11 +37,7 @@ const Footer: React.FC<FooterProps> = ({
                                     About
                                 </Link>
                             </li>
-                            <li>
-                                <Link to="/blog" className="hover:text-white transition-colors">
-                                    Blog
-                                </Link>
-                            </li>
+                            
                             <li>
                                 <Link to="/faq" className="hover:text-white transition-colors">
                                     FAQ

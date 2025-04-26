@@ -6,7 +6,7 @@ import featuredImage from "../assets/blogImage1.jpg";
 import fastLearningImage from "../assets/blogImg6.jpg";
 import fretboardMemoryImage from "../assets/blogImg4.jpg";
 import scaleVisualizationImage from "../assets/blogImg5.jpg";
-import sixtStringNotes from "../assets/6thStringNotes.png";
+
 // Define types for blog posts
 interface BlogPostData {
   id: string;
@@ -70,7 +70,7 @@ const blogPostsData: BlogPostData[] = [
       
       <div class="my-8 p-6 bg-gray-50 rounded-lg">
         <img 
-          src={octaveRelationImage}
+          src="/src/assets/6thStringNotes.png"
           alt="Low E String Notes Diagram" 
           class="w-full rounded mb-4"
         />
