@@ -16,6 +16,7 @@ import { ProtectedRoute } from "./components/common/ProtectedRoute";
 import FretboardGame from "./games/fretboard-notefinder/FretboardGame";
 import PentatonicShapeConnector from './games/pentatonic-shapes/PentatonicShapeConnector';
 import TrainingTools from "./pages/TrainingTools";
+import NotFound from "./pages/NotFound";
 
 // Profile pages (protected)
 const Profile = React.lazy(() => import("./pages/Profile"));
@@ -67,7 +68,8 @@ const AppRoutes: React.FC = () => {
         />
 
         {/* Fallback route */}
-        <Route path="*" element={<Navigate to="/" replace />} />
+        {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   );
