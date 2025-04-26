@@ -16,7 +16,7 @@ const Hero = () => {
     const handleTouchStart = (e: TouchEvent) => {
       // Prevent any default behavior that might be blocking the action
       e.preventDefault();
-      
+
       // Navigate programmatically if Link isn't working
       window.location.href = "/tools";
     };
@@ -65,18 +65,21 @@ const Hero = () => {
               <div className="lg:w-3/5 text-center lg:text-left px-4 lg:px-6">
                 {/* Updated heading with two lines of equal size and period at the end */}
                 <h1 className="text-white font-bold mb-6">
-                  <span className="block text-2xl md:text-4xl lg:text-5xl mb-2">Master the Guitar Fretboard.</span>
-                  <span className="block text-2xl md:text-4xl lg:text-5xl">Improve Your Skills Faster.</span>
+                  <span className="block text-2xl md:text-4xl lg:text-5xl mb-2">
+                    Master the Guitar Fretboard.
+                  </span>
+                  <span className="block text-2xl md:text-4xl lg:text-5xl">
+                    Improve Your Skills Faster.
+                  </span>
                 </h1>
 
                 <div className="w-22 h-1 bg-white mx-auto lg:mx-0 mb-6"></div>
                 <p className="text-white text-lg mb-6 max-w-lg mx-auto lg:mx-0 opacity-90">
-                  Sharpen your guitar skills with powerful, interactive tools
+                  Sharpen your guitar skills with Fretszy’s interactive tools,
                   designed to help you master the fretboard, recognize notes
-                  faster, build ear training, and track your progress with real
-                  insights.
+                  faster, build ear training, and track your progress easily.
                 </p>
-                
+
                 {/* Fixed button with explicit z-index and pointer-events-auto to ensure it's clickable */}
                 <div className="relative z-50 pointer-events-auto">
                   <Link
@@ -161,7 +164,8 @@ const Hero = () => {
         style={{
           background:
             "linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 1) 100%)",
-          marginTop: "-6rem", /* Pull the gradient up to overlap with the bottom of the image */
+          marginTop:
+            "-6rem" /* Pull the gradient up to overlap with the bottom of the image */,
           position: "relative",
           zIndex: "5",
         }}

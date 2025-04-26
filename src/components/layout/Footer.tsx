@@ -96,7 +96,7 @@ const Footer: React.FC<FooterProps> = ({
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-gray-800 text-center">
-                    <p className="text-sm text-gray-400">&copy; {copyrightYear} {appName}. All rights reserved.</p>
+                    <p className="text-sm text-gray-400">&copy; {copyrightYear} {appName}. Guitar Fretboard Training Platform</p>
                     <div className="mt-2 flex justify-center flex-wrap">
                         <span className="px-2 text-sm text-gray-500">Guitar Fretboard Trainer</span>
                         <span className="text-gray-600 mx-1">•</span>
