@@ -6,12 +6,12 @@ const PrivacyPolicy: React.FC = () => {
 
     return (
         <Layout>
-            <div className="pt-20 pb-12">
+            <div className="pt-20 pb-12 bg-gray-900 text-white">
                 <div className="container mx-auto px-4 max-w-4xl">
                     <h1 className="text-3xl font-bold mb-8 text-center">Privacy Policy</h1>
-                    <p className="text-center text-gray-600 mb-8">Last Updated: {lastUpdated}</p>
+                    <p className="text-center text-gray-400 mb-8">Last Updated: {lastUpdated}</p>
 
-                    <div className="bg-white p-8 rounded-lg shadow-sm">
+                    <div className="bg-gray-800 p-8 rounded-lg shadow-sm">
                         <section className="mb-8">
                             <h2 className="text-2xl font-bold mb-4">Introduction</h2>
                             <p className="mb-4">
@@ -100,7 +100,7 @@ const PrivacyPolicy: React.FC = () => {
                         </section>
 
                         <section className="mb-8">
-                            <h2 className="text-2xl font-bold mb-4">Children’s Privacy</h2>
+                            <h2 className="text-2xl font-bold mb-4">Children's Privacy</h2>
                             <p className="mb-4">
                                 Our services are not intended for children under 13. We do not knowingly collect personal data from individuals under this age. If you believe we have inadvertently collected information from a minor, please contact us for prompt removal.
                             </p>
@@ -116,10 +116,9 @@ const PrivacyPolicy: React.FC = () => {
                         <section>
                             <h2 className="text-2xl font-bold mb-4">Contact Us</h2>
                             <p className="mb-2">If you have any questions, contact us at:</p>
-                            <div className="bg-gray-50 rounded p-4">
+                            <div className="bg-gray-700 rounded p-4">
                                 <p><strong>Email:</strong> support@fretszy.com</p>
-                                <p><strong>Call Us:</strong> <a href="tel:+917002505588" className="text-blue-600 hover:underline">+91 70025 05588</a></p>
-
+                                <p><strong>Call Us:</strong> <a href="tel:+917002505588" className="text-blue-400 hover:underline">+91 70025 05588</a></p>
                             </div>
                         </section>
                     </div>
