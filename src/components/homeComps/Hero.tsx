@@ -1,6 +1,6 @@
 // src/components/homeComps/Hero.tsx
 import { Link } from "react-router-dom";
-import heroImage from "../../assets/hero.png"; // Make sure path is correct
+import heroImage from "../../assets/hero.webp"; // Make sure path is correct
 import { mainGradient } from "../../utils/GradientUtils";
 import { useEffect, useRef } from "react";
 
