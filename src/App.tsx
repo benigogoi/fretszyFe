@@ -1,44 +1,101 @@
-// App.tsx - Implement code splitting using React.lazy and Suspense
-import { lazy, Suspense } from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import Layout from './components/Layout';
+// src/App.tsx
+import { BrowserRouter as Router, useLocation } from 'react-router-dom';
+import { useEffect, lazy, Suspense } from 'react';
+import { AuthProvider } from './components/auth/AuthProvider';
+import { GoogleAuthProvider } from './components/auth/GoogleAuthProvider';
 
-// Import components that are needed for the initial render directly
-import Home from './pages/Home';
-import LoadingSpinner from './components/common/LoadingSpinner'; // Create this as a simple spinner
+// Lazy load components
+const AppRoutes = lazy(() => import('./Router'));
+const ScrollToTop = lazy(() => import('./utils/ScrollToTop'));
 
-// Lazy load all other pages
-const Tools = lazy(() => import('./pages/Tools'));
-const FretboardPage = lazy(() => import('./pages/games/FretboardPage'));
-const PentatonicShapes = lazy(() => import('./pages/games/PentatonicShapes'));
-const About = lazy(() => import('./pages/About'));
-const Privacy = lazy(() => import('./pages/Privacy'));
-const Terms = lazy(() => import('./pages/Terms'));
-const NotFound = lazy(() => import('./pages/NotFound'));
-// Add any other routes you have that aren't needed for initial page load
+declare global {
+  interface Window {
+    gtag?: (...args: any[]) => void;
+  }
+}
+
+// Throttle function to limit execution frequency
+function throttle<T extends (...args: any[]) => void>(
+  func: T,
+  limit: number
+): (...args: Parameters<T>) => void {
+  let inThrottle: boolean = false;
+  
+  return function(this: any, ...args: Parameters<T>) {
+    if (!inThrottle) {
+      func.apply(this, args);
+      inThrottle = true;
+      setTimeout(() => (inThrottle = false), limit);
+    }
+  };
+}
+
+function GATracker() {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Only track page views if gtag exists and user has given consent
+    const hasConsent = localStorage.getItem('analytics-consent') === 'true';
+    
+    if (window.gtag && hasConsent) {
+      // Throttle page view tracking to avoid excessive calls during rapid navigation
+      const throttledPageView = throttle(() => {
+        window.gtag!('event', 'page_view', {
+          page_path: location.pathname + location.search,
+          page_title: document.title,
+          page_location: window.location.href
+        });
+      }, 1000);
+      
+      throttledPageView();
+    }
+  }, [location]);
+
+  return null;
+}
+
+// Loading component for suspense fallback
+const LoadingFallback = () => (
+  <div className="flex items-center justify-center h-screen w-full bg-black">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+      <p className="text-white text-lg">Loading Fretszy...</p>
+    </div>
+  </div>
+);
 
 function App() {
+  // Add a performance marker for component mounting
+  useEffect(() => {
+    // Mark the main app component mounted time
+    if (window.performance && window.performance.mark) {
+      window.performance.mark('app-mounted');
+    }
+    
+    // Cleanup function to measure performance when component unmounts
+    return () => {
+      if (window.performance && window.performance.measure) {
+        try {
+          window.performance.measure('app-lifecycle', 'app-mounted');
+        } catch (e) {
+          console.error('Performance measurement error:', e);
+        }
+      }
+    };
+  }, []);
+
   return (
-    <Layout>
-      <Suspense fallback={<LoadingSpinner />}>
-        <Routes>
-          {/* Home page loaded immediately (not lazy) */}
-          <Route path="/" element={<Home />} />
-          
-          {/* All other routes are lazy loaded */}
-          <Route path="/tools" element={<Tools />} />
-          <Route path="/games/fretboard" element={<FretboardPage />} />
-          <Route path="/games/pentatonic-shapes" element={<PentatonicShapes />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/404" element={<NotFound />} />
-          
-          {/* Redirect any other routes to 404 */}
-          <Route path="*" element={<Navigate to="/404" replace />} />
-        </Routes>
-      </Suspense>
-    </Layout>
+    <GoogleAuthProvider>
+      <AuthProvider>
+        <Router>
+          <Suspense fallback={<LoadingFallback />}>
+            <ScrollToTop />
+            <GATracker />
+            <AppRoutes />
+          </Suspense>
+        </Router>
+      </AuthProvider>
+    </GoogleAuthProvider>
   );
 }
 

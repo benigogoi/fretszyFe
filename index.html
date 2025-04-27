@@ -6,8 +6,20 @@
   <link rel="icon" type="image/png" href="./src/assets/favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Preload critical hero image -->
+  <!-- Resource hints for performance -->
+  <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+  
+  <!-- Preload critical resources -->
   <link rel="preload" as="image" href="/src/assets/hero.webp" type="image/webp" />
+  <link rel="preload" as="style" href="/src/index.css" />
+  <link rel="preload" as="script" href="/src/main.tsx" />
+  
+  <!-- Prefetch likely next pages -->
+  <link rel="prefetch" href="/tools" />
+  <link rel="prefetch" href="/games/fretboard" />
 
   <!-- Title and Meta Description -->
   <title>Fretszy | Master Guitar Fretboard, Scales, Rhythm & More</title>
@@ -43,7 +55,8 @@
   <!-- Google Funding Choices (optional, for Consent Message) -->
   <script defer src="https://fundingchoicesmessages.google.com/i/pub-8314798240062501?ers=1"></script>
   <script>
-    (function () {
+    (function() {
+      // Keep the signalGooglefcPresent function since it might be required for Google's consent system
       function signalGooglefcPresent() {
         if (!window.frames['googlefcPresent']) {
           if (document.body) {
@@ -53,22 +66,30 @@
             iframe.name = 'googlefcPresent';
             document.body.appendChild(iframe);
           } else {
+            // If document.body isn't ready yet, retry later
             setTimeout(signalGooglefcPresent, 0);
           }
         }
       }
-      signalGooglefcPresent();
+      // Execute the function after page load to avoid blocking rendering
+      if (document.readyState === 'complete') {
+        signalGooglefcPresent();
+      } else {
+        window.addEventListener('load', signalGooglefcPresent);
+      }
     })();
   </script>
 
-
-  <!-- Google tag (gtag.js) -->
+  <!-- Google tag (gtag.js) - Deferred to improve page load -->
   <script defer src="https://www.googletagmanager.com/gtag/js?id=G-D37FBTN3TP"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
-    gtag('js', new Date());
-    gtag('config', 'G-D37FBTN3TP');
+    // Only initialize analytics after page has loaded
+    window.addEventListener('load', function() {
+      gtag('js', new Date());
+      gtag('config', 'G-D37FBTN3TP', { 'send_page_view': false }); // Disable automatic page views
+    });
   </script>
 
   <!-- Structured Data (JSON-LD) -->
@@ -89,6 +110,28 @@
   }
   </script>
 
+  <!-- Inline critical CSS for above-the-fold content -->
+  <style>
+    /* Critical CSS for initial render - just the base styles */
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+      background-color: #000;
+      color: #fff;
+    }
+    #root {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    /* Add minimal navbar styling for initial render */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 50;
+    }
+  </style>
 </head>
 
 <body>
