@@ -26,8 +26,8 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
   // Create a reference to the button and image
   const buttonRef = useRef<HTMLAnchorElement>(null);
   
-  // Track image loading state
-  const [isLoaded, setIsLoaded] = useState(true); // Changed to true by default to prevent loading indicator
+  // Track image loading state - start as true to avoid loading indicators
+  const [isLoaded, setIsLoaded] = useState(true);
   
   // Track if the viewport is mobile
   const [isMobile, setIsMobile] = useState(false);
@@ -127,11 +127,29 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
     };
   }, [throttle]);
 
+  // Preload the hero image
+  useEffect(() => {
+    // Create a link element for preloading
+    const preloadLink = document.createElement('link');
+    preloadLink.rel = 'preload';
+    preloadLink.as = 'image';
+    preloadLink.href = heroImage;
+    document.head.appendChild(preloadLink);
+
+    return () => {
+      // Clean up
+      document.head.removeChild(preloadLink);
+    };
+  }, []);
+
   return (
     <>
       {/* Hero section - Full width with gradient background */}
-      <div className="relative w-full overflow-hidden opacity-100"
-           data-loaded={isLoaded.toString()}>
+      <div 
+        className="relative w-full overflow-hidden opacity-100"
+        data-loaded={isLoaded.toString()}
+        style={{ minHeight: '400px' }} // Add explicit minimum height
+      >
         {/* Main gradient background (only essential for first render) */}
         <div
           className="absolute inset-0 z-0"
@@ -187,19 +205,26 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
 
               {/* Right content - Guitarist Hero Image with spotlight (40% on desktop) */}
               <div className="lg:w-2/5 px-4 lg:px-6 flex items-center justify-center relative z-10">
-                {/* Main guitarist image */}
-                <div className="relative">
-                  {/* Main image with high priority */}
-                  <OptimizedImage
+                {/* Main guitarist image with simplified container */}
+                <div 
+                  className="relative" 
+                  style={{ 
+                    width: '100%', 
+                    maxWidth: '600px', 
+                    height: 'auto',
+                    minHeight: '300px' 
+                  }}
+                >
+                  {/* Main image with high priority - simplified without filter effects */}
+                  <img
                     src={heroImage}
                     alt="Guitarist playing with energy"
-                    className="relative z-20 h-auto max-h-[500px] object-contain pointer-events-none opacity-100"
-                    width={600} 
-                    height={500}
-                    priority={true}
+                    className="relative z-20 h-auto max-h-[500px] w-full object-contain pointer-events-none opacity-100"
+                    width="600" 
+                    height="500"
+                    decoding="sync"
                     style={{
                       clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 90%)",
-                      transform: isMobile ? "scale(1.15)" : "scale(1.25)",
                     }}
                     onLoad={handleImageLoad}
                   />
@@ -207,19 +232,6 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
                   {/* Decorative elements only loaded after main content */}
                   {showDecorations && !isMobile && (
                     <>
-                      {/* Spotlight cone effect */}
-                      <div
-                        className="absolute top-0 left-1/2 w-96 h-96 pointer-events-none"
-                        style={{
-                          background:
-                            "conic-gradient(from 90deg at 50% 0%, rgba(255, 255, 255, 0.3) 0deg, transparent 75deg, transparent 285deg, rgba(255, 255, 255, 0.3) 360deg)",
-                          borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
-                          transform: "translateX(-50%) translateY(-25%) scale(2)",
-                          opacity: "0.5",
-                          zIndex: "1",
-                        }}
-                      ></div>
-
                       {/* Color overlay effects */}
                       <div 
                         className="absolute top-1/3 right-0 w-32 h-32 bg-red-500 rounded-full mix-blend-screen opacity-30 blur-2xl z-10 pointer-events-none"
