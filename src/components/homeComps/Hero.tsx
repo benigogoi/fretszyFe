@@ -1,7 +1,9 @@
 // src/components/homeComps/Hero.tsx
 import { Link } from "react-router-dom";
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { mainGradient } from "../../utils/GradientUtils";
+// Import OptimizedImage
+import OptimizedImage from "../common/OptimizedImage";
 
 // Import with named import to avoid pulling in unnecessary code
 import heroImage from "../../assets/hero.webp";
@@ -23,18 +25,20 @@ interface Particle {
 const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
   // Create a reference to the button and image
   const buttonRef = useRef<HTMLAnchorElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
   
-  // Track image loading state and actually use the variable in the component
+  // Track image loading state
   const [isLoaded, setIsLoaded] = useState(false);
+  
+  // Track if the viewport is mobile
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Manage particles with React state
-  const [particles] = useState<Particle[]>([
+  // Manage particles with React state - useMemo to avoid recreating on every render
+  const particles = useMemo<Particle[]>(() => [
     { id: 1, top: '25%', left: '25%', size: 2, animationDuration: '3s' },
     { id: 2, top: '33%', left: '50%', size: 1, animationDuration: '2s' },
     { id: 3, top: '67%', left: '33%', size: 1.5, animationDuration: '4s' },
     { id: 4, top: '50%', left: '75%', size: 2, animationDuration: '5s' },
-  ]);
+  ], []);
 
   // Fixed throttle function with proper typing
   const throttle = useCallback(<T extends (...args: any[]) => void>(
@@ -63,6 +67,27 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
       }
     };
   }, []);
+
+  // Check for mobile viewport on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // Check initially
+    checkMobile();
+    
+    // Create throttled resize handler
+    const handleResize = throttle(checkMobile, 200);
+    
+    // Add resize listener
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [throttle]);
 
   // Handle image load event
   const handleImageLoad = useCallback(() => {
@@ -95,27 +120,6 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
     };
   }, [throttle]);
 
-  // Set up image loading
-  useEffect(() => {
-    const img = imageRef.current;
-    if (img) {
-      if (img.complete) {
-        handleImageLoad();
-      } else {
-        img.addEventListener('load', handleImageLoad);
-        
-        // Add error handling just in case
-        img.addEventListener('error', () => {
-          console.error('Failed to load hero image');
-        });
-        
-        return () => {
-          img.removeEventListener('load', handleImageLoad);
-        };
-      }
-    }
-  }, [handleImageLoad]);
-
   return (
     <>
       {/* Hero section - Full width with gradient background */}
@@ -139,19 +143,25 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
           }}
         ></div>
 
-        {/* Grid pattern overlay */}
-        <div
-          className="absolute inset-0 opacity-10 z-0"
-          style={{
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='1' cy='1' r='1'/%3E%3C/g%3E%3C/svg%3E\")",
-            backgroundSize: "20px 20px",
-          }}
-        ></div>
+        {/* Grid pattern overlay - only on desktop and when loaded to save resources */}
+        {isLoaded && !isMobile && (
+          <div
+            className="absolute inset-0 opacity-10 z-0"
+            style={{
+              backgroundImage:
+                "url(\"data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='1' cy='1' r='1'/%3E%3C/g%3E%3C/svg%3E\")",
+              backgroundSize: "20px 20px",
+            }}
+          ></div>
+        )}
 
-        {/* Spotlight effect - Using transform translate for better performance */}
-        <div className="absolute top-0 left-2/3 w-full h-96 bg-white opacity-10 blur-3xl rounded-full translate-y-[-6rem] z-0"></div>
-        <div className="absolute top-10 right-1/3 w-32 h-32 bg-blue-500 opacity-30 blur-3xl rounded-full z-0"></div>
+        {/* Spotlight effect - Only on desktop, using transform translate for better performance */}
+        {!isMobile && (
+          <>
+            <div className="absolute top-0 left-2/3 w-full h-96 bg-white opacity-10 blur-3xl rounded-full translate-y-[-6rem] z-0"></div>
+            <div className="absolute top-10 right-1/3 w-32 h-32 bg-blue-500 opacity-30 blur-3xl rounded-full z-0"></div>
+          </>
+        )}
 
         {/* Content */}
         <div className="relative z-10 py-24 w-full">
@@ -199,70 +209,83 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
               <div className="lg:w-2/5 px-4 lg:px-6 flex items-center justify-center relative z-10">
                 {/* Main guitarist image */}
                 <div className="relative">
-                  {/* Spotlight cone effect - Using transform for better performance */}
-                  <div
-                    className="absolute top-0 left-1/2 w-96 h-96 pointer-events-none"
-                    style={{
-                      background:
-                        "conic-gradient(from 90deg at 50% 0%, rgba(255, 255, 255, 0.3) 0deg, transparent 75deg, transparent 285deg, rgba(255, 255, 255, 0.3) 360deg)",
-                      borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
-                      transform: "translateX(-50%) translateY(-25%) scale(2)",
-                      opacity: "0.5",
-                      zIndex: "1",
-                    }}
-                  ></div>
+                  {/* Spotlight cone effect - Using transform for better performance, only on desktop */}
+                  {!isMobile && isLoaded && (
+                    <div
+                      className="absolute top-0 left-1/2 w-96 h-96 pointer-events-none"
+                      style={{
+                        background:
+                          "conic-gradient(from 90deg at 50% 0%, rgba(255, 255, 255, 0.3) 0deg, transparent 75deg, transparent 285deg, rgba(255, 255, 255, 0.3) 360deg)",
+                        borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
+                        transform: "translateX(-50%) translateY(-25%) scale(2)",
+                        opacity: "0.5",
+                        zIndex: "1",
+                      }}
+                    ></div>
+                  )}
 
-                  {/* Dynamic light beam - Using transform for better performance */}
-                  <div className="absolute top-0 left-1/2 w-64 h-64 bg-gradient-to-b from-white via-white to-transparent opacity-10 blur-md z-0 pointer-events-none" 
-                       style={{ transform: "translateX(-50%) translateY(-8rem)" }}></div>
+                  {/* Dynamic light beam - Using transform for better performance, only on desktop */}
+                  {!isMobile && isLoaded && (
+                    <div 
+                      className="absolute top-0 left-1/2 w-64 h-64 bg-gradient-to-b from-white via-white to-transparent opacity-10 blur-md z-0 pointer-events-none" 
+                      style={{ transform: "translateX(-50%) translateY(-8rem)" }}
+                    ></div>
+                  )}
 
-                  {/* Main image - With explicit width, height, and loading strategy */}
-                  <img
-                    ref={imageRef}
+                  {/* Main image - Replace with OptimizedImage */}
+                  <OptimizedImage
                     src={heroImage}
                     alt="Guitarist playing with energy"
                     className={`relative z-20 h-auto max-h-[500px] object-contain pointer-events-none transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-                    width="600" 
-                    height="500"
-                    fetchPriority="high"
-                    loading="eager" 
-                    decoding="async"
+                    width={600} 
+                    height={500}
+                    priority={true}
                     style={{
-                      filter: "drop-shadow(0 0 15px rgba(255, 255, 255, 0.3))",
-                      transform: "scale(1.25)",
+                      filter: isMobile ? "none" : "drop-shadow(0 0 15px rgba(255, 255, 255, 0.3))",
+                      transform: isMobile ? "scale(1.15)" : "scale(1.25)",
                       clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 90%)",
                     }}
                     onLoad={handleImageLoad}
                   />
 
-                  {/* Color overlay effects - Using will-change to optimize rendering */}
-                  <div className="absolute top-1/3 right-0 w-32 h-32 bg-red-500 rounded-full mix-blend-screen opacity-30 blur-2xl z-10 pointer-events-none"
-                       style={{ willChange: "transform, opacity" }}></div>
-                  <div className="absolute bottom-1/4 left-0 w-24 h-24 bg-blue-500 rounded-full mix-blend-screen opacity-30 blur-2xl z-10 pointer-events-none"
-                       style={{ willChange: "transform, opacity" }}></div>
+                  {/* Color overlay effects - Using will-change to optimize rendering, only on desktop */}
+                  {!isMobile && isLoaded && (
+                    <>
+                      <div 
+                        className="absolute top-1/3 right-0 w-32 h-32 bg-red-500 rounded-full mix-blend-screen opacity-30 blur-2xl z-10 pointer-events-none"
+                        style={{ willChange: "transform, opacity" }}
+                      ></div>
+                      <div 
+                        className="absolute bottom-1/4 left-0 w-24 h-24 bg-blue-500 rounded-full mix-blend-screen opacity-30 blur-2xl z-10 pointer-events-none"
+                        style={{ willChange: "transform, opacity" }}
+                      ></div>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Animated particles - Using React state for controlled rendering */}
-        <div className="absolute inset-0 z-5 overflow-hidden pointer-events-none">
-          {particles.map(particle => (
-            <div 
-              key={particle.id}
-              className="absolute bg-white rounded-full animate-pulse opacity-70"
-              style={{ 
-                top: particle.top, 
-                left: particle.left, 
-                width: `${particle.size}px`, 
-                height: `${particle.size}px`,
-                animationDuration: particle.animationDuration,
-                willChange: "opacity"
-              }}
-            ></div>
-          ))}
-        </div>
+        {/* Animated particles - Only loaded on desktop and after image has loaded */}
+        {isLoaded && !isMobile && (
+          <div className="absolute inset-0 z-5 overflow-hidden pointer-events-none">
+            {particles.map(particle => (
+              <div 
+                key={particle.id}
+                className="absolute bg-white rounded-full animate-pulse opacity-70"
+                style={{ 
+                  top: particle.top, 
+                  left: particle.left, 
+                  width: `${particle.size}px`, 
+                  height: `${particle.size}px`,
+                  animationDuration: particle.animationDuration,
+                  willChange: "opacity"
+                }}
+              ></div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Dark overlay that fades to black - positioned as a separate element */}
@@ -271,8 +294,7 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
         style={{
           background:
             "linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 1) 100%)",
-          marginTop:
-            "-6rem" /* Pull the gradient up to overlap with the bottom of the image */,
+          marginTop: "-6rem",
           position: "relative",
           zIndex: "5",
         }}

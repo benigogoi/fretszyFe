@@ -1,8 +1,10 @@
 // src/App.tsx
 import { BrowserRouter as Router, useLocation } from 'react-router-dom';
-import { useEffect, lazy, Suspense } from 'react';
+import { useEffect, lazy, Suspense, useState } from 'react';
 import { AuthProvider } from './components/auth/AuthProvider';
 import { GoogleAuthProvider } from './components/auth/GoogleAuthProvider';
+// Import the FontPreloader component
+import FontPreloader from './components/common/FontPreloader';
 
 // Lazy load components
 const AppRoutes = lazy(() => import('./Router'));
@@ -32,12 +34,34 @@ function throttle<T extends (...args: any[]) => void>(
 
 function GATracker() {
   const location = useLocation();
+  const [hasInteracted, setHasInteracted] = useState(false);
+
+  // Track user interaction
+  useEffect(() => {
+    const handleInteraction = () => {
+      setHasInteracted(true);
+      // Remove listeners after first interaction
+      document.removeEventListener('click', handleInteraction);
+      document.removeEventListener('scroll', handleInteraction);
+      document.removeEventListener('touchstart', handleInteraction);
+    };
+
+    document.addEventListener('click', handleInteraction, { once: true });
+    document.addEventListener('scroll', handleInteraction, { once: true });
+    document.addEventListener('touchstart', handleInteraction, { once: true });
+
+    return () => {
+      document.removeEventListener('click', handleInteraction);
+      document.removeEventListener('scroll', handleInteraction);
+      document.removeEventListener('touchstart', handleInteraction);
+    };
+  }, []);
 
   useEffect(() => {
-    // Only track page views if gtag exists and user has given consent
+    // Only track page views if gtag exists, user has given consent, and has interacted
     const hasConsent = localStorage.getItem('analytics-consent') === 'true';
     
-    if (window.gtag && hasConsent) {
+    if (window.gtag && hasConsent && hasInteracted) {
       // Throttle page view tracking to avoid excessive calls during rapid navigation
       const throttledPageView = throttle(() => {
         window.gtag!('event', 'page_view', {
@@ -49,7 +73,7 @@ function GATracker() {
       
       throttledPageView();
     }
-  }, [location]);
+  }, [location, hasInteracted]);
 
   return null;
 }
@@ -87,6 +111,7 @@ function App() {
   return (
     <GoogleAuthProvider>
       <AuthProvider>
+        <FontPreloader />
         <Router>
           <Suspense fallback={<LoadingFallback />}>
             <ScrollToTop />

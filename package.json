@@ -7,6 +7,7 @@
     "dev": "vite",
     "preinstall": "node ./install-binaries.js",
     "build": "tsc -b && vite build",
+    "analyze": "vite build --mode analyze",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -38,6 +39,7 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
+    "terser": "^5.24.0",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0"
