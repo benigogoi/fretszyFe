@@ -34,10 +34,10 @@ const Navbar: React.FC<NavbarProps> = () => {
     const { isAuthenticated, isLoading, user } = useAuth();
     const location = useLocation();
 
-    // For debugging auth state
-    useEffect(() => {
-        console.log('Auth state in Navbar:', { isAuthenticated, isLoading, user });
-    }, [isAuthenticated, isLoading, user]);
+    // Remove debug logging in production
+    // useEffect(() => {
+    //     console.log('Auth state in Navbar:', { isAuthenticated, isLoading, user });
+    // }, [isAuthenticated, isLoading, user]);
 
     // Add scroll effect for navbar
     useEffect(() => {
@@ -128,6 +128,8 @@ const Navbar: React.FC<NavbarProps> = () => {
                                 src={logo}
                                 alt="Fretszy Guitar Fretboard Training Tool Logo"
                                 className="h-12 w-auto p-1"
+                                width={48}
+                                height={48}
                             />
                         </Link>
                     </div>
@@ -169,6 +171,8 @@ const Navbar: React.FC<NavbarProps> = () => {
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
                                 aria-hidden="true"
+                                width={24}
+                                height={24}
                             >
                                 <path
                                     strokeLinecap="round"
@@ -185,6 +189,8 @@ const Navbar: React.FC<NavbarProps> = () => {
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
                                 aria-hidden="true"
+                                width={24}
+                                height={24}
                             >
                                 <path
                                     strokeLinecap="round"
