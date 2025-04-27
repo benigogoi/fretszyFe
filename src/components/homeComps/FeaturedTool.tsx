@@ -44,15 +44,16 @@ const FeaturedTool: React.FC<FeaturedToolProps> = ({ featuredTools }) => {
               {/* Accent light */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-40 h-40 bg-blue-500/20 blur-xl rounded-full"></div>
               
-              {/* Image container with subtle shadow */}
+              {/* Image container with subtle shadow - Added width/height and loading="lazy" */}
               <div className="relative z-10 p-6">
                 <img
                   src={tool.image}
                   alt={tool.title}
                   className="w-auto h-auto max-w-full max-h-full object-contain rounded-md shadow-lg"
+                  width="400" 
+                  height="270"
+                  loading="lazy"
                   style={{ 
-                    width: "400px", 
-                    height: "270px",
                     filter: "drop-shadow(0 0 10px rgba(59, 130, 246, 0.3))"
                   }}
                 />

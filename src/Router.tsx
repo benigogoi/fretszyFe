@@ -1,57 +1,63 @@
 // src/Router.tsx
-import React from "react";
+import React, { lazy } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import FAQ from "./pages/FAQ";
-import PrivacyPolicy from "./pages/PrivacyPolicy";
-import TermsOfService from "./pages/TermsOfService";
-import Resources from "./pages/Resources";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Landing from "./pages/Landing";
 import { ProtectedRoute } from "./components/common/ProtectedRoute";
-import FretboardGame from "./games/fretboard-notefinder/FretboardGame";
-import PentatonicShapeConnector from './games/pentatonic-shapes/PentatonicShapeConnector';
-import TrainingTools from "./pages/TrainingTools";
-import NotFound from "./pages/NotFound";
+import LazyComponent from "./components/common/LazyComponent";
 
-// Profile pages (protected)
-const Profile = React.lazy(() => import("./pages/Profile"));
-const Settings = React.lazy(() => import("./pages/Settings"));
+// Only import Home directly since it's needed for the initial render
+// Lazy load all other components
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const FAQ = lazy(() => import("./pages/FAQ"));
+const PrivacyPolicy = lazy(() => import("./pages/PrivacyPolicy"));
+const TermsOfService = lazy(() => import("./pages/TermsOfService"));
+const Resources = lazy(() => import("./pages/Resources"));
+const Login = lazy(() => import("./pages/Login"));
+const Register = lazy(() => import("./pages/Register"));
+const Landing = lazy(() => import("./pages/Landing"));
+const FretboardGame = lazy(() => import("./games/fretboard-notefinder/FretboardGame"));
+const PentatonicShapeConnector = lazy(() => import('./games/pentatonic-shapes/PentatonicShapeConnector'));
+const TrainingTools = lazy(() => import("./pages/TrainingTools"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
+// Profile pages (already lazy loaded)
+const Profile = lazy(() => import("./pages/Profile"));
+const Settings = lazy(() => import("./pages/Settings"));
 
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
       {/* Special case for Login/Register since they have their own layout */}
-      <Route path="login" element={<Login />} />
-      <Route path="register" element={<Register />} />
+      <Route path="login" element={<LazyComponent component={Login} />} />
+      <Route path="register" element={<LazyComponent component={Register} />} />
 
       {/* All other routes wrapped in Layout component */}
       <Route element={<Layout />}>
+        {/* Home is not lazy loaded for faster initial load */}
         <Route index element={<Home />} />
-        <Route path="about" element={<About />} />
-        <Route path="contact" element={<Contact />} />
-        <Route path="faq" element={<FAQ />} />
-        <Route path="privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="terms-of-service" element={<TermsOfService />} />
-        <Route path="resources" element={<Resources />} />
-        <Route path="landing" element={<Landing />} />
-        <Route path="tools" element={<TrainingTools />} />
+        
+        {/* All other routes are lazy loaded */}
+        <Route path="about" element={<LazyComponent component={About} />} />
+        <Route path="contact" element={<LazyComponent component={Contact} />} />
+        <Route path="faq" element={<LazyComponent component={FAQ} />} />
+        <Route path="privacy-policy" element={<LazyComponent component={PrivacyPolicy} />} />
+        <Route path="terms-of-service" element={<LazyComponent component={TermsOfService} />} />
+        <Route path="resources" element={<LazyComponent component={Resources} />} />
+        <Route path="landing" element={<LazyComponent component={Landing} />} />
+        <Route path="tools" element={<LazyComponent component={TrainingTools} />} />
+        
         {/* Game routes */}
-        <Route path="games/pentatonic-shapes" element={<PentatonicShapeConnector />} />
-        <Route path="games/fretboard" element={<FretboardGame />} />
+        <Route path="games/pentatonic-shapes" element={<LazyComponent component={PentatonicShapeConnector} />} />
+        <Route path="games/fretboard" element={<LazyComponent component={FretboardGame} />} />
 
-        {/* Protected routes */}
+        {/* Protected routes - already using Suspense */}
         <Route
           path="profile"
           element={
             <ProtectedRoute>
-              <React.Suspense fallback={<div>Loading...</div>}>
-                <Profile />
-              </React.Suspense>
+              <LazyComponent component={Profile} />
             </ProtectedRoute>
           }
         />
@@ -60,16 +66,13 @@ const AppRoutes: React.FC = () => {
           path="settings"
           element={
             <ProtectedRoute>
-              <React.Suspense fallback={<div>Loading...</div>}>
-                <Settings />
-              </React.Suspense>
+              <LazyComponent component={Settings} />
             </ProtectedRoute>
           }
         />
 
         {/* Fallback route */}
-        {/* <Route path="*" element={<Navigate to="/" replace />} /> */}
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<LazyComponent component={NotFound} />} />
       </Route>
     </Routes>
   );

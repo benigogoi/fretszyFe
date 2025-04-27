@@ -49,15 +49,16 @@ const ToolsGrid: React.FC<ToolsGridProps> = ({ tools }) => {
                 {/* Accent lighting */}
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-24 h-24 bg-blue-500/20 blur-xl rounded-full"></div>
                 
-                {/* Image with enhanced styling */}
+                {/* Image with enhanced styling - Added width/height and lazy loading */}
                 <div className="relative z-10 p-3 transition-transform duration-300 transform hover:scale-110">
                   <img
                     src={tool.image}
                     alt={tool.title}
                     className="w-auto h-auto max-w-full max-h-full object-contain rounded-md"
+                    width="170" 
+                    height="150"
+                    loading="lazy"
                     style={{ 
-                      width: "170px", 
-                      height: "150px",
                       filter: "drop-shadow(0 0 8px rgba(59, 130, 246, 0.3))"
                     }}
                   />

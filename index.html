@@ -6,6 +6,9 @@
   <link rel="icon" type="image/png" href="./src/assets/favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
+  <!-- Preload critical hero image -->
+  <link rel="preload" as="image" href="/src/assets/hero.webp" type="image/webp" />
+
   <!-- Title and Meta Description -->
   <title>Fretszy | Master Guitar Fretboard, Scales, Rhythm & More</title>
   <meta name="description"
@@ -33,12 +36,12 @@
     content="Sharpen your guitar skills with Fretszy's interactive training tools. Master the fretboard, scales, rhythm, ear training, and more.">
   <meta name="twitter:image" content="https://fretszy.com/fretszyOG.png">
 
-  <!-- Google AdSense Script -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8314798240062501"
+  <!-- Google AdSense Script - Using defer to not block rendering -->
+  <script defer src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8314798240062501"
     crossorigin="anonymous"></script>
 
   <!-- Google Funding Choices (optional, for Consent Message) -->
-  <script async src="https://fundingchoicesmessages.google.com/i/pub-8314798240062501?ers=1"></script>
+  <script defer src="https://fundingchoicesmessages.google.com/i/pub-8314798240062501?ers=1"></script>
   <script>
     (function () {
       function signalGooglefcPresent() {
@@ -60,7 +63,7 @@
 
 
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-D37FBTN3TP"></script>
+  <script defer src="https://www.googletagmanager.com/gtag/js?id=G-D37FBTN3TP"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }

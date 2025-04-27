@@ -75,7 +75,7 @@ const Hero = () => {
 
                 <div className="w-22 h-1 bg-white mx-auto lg:mx-0 mb-6"></div>
                 <p className="text-white text-lg mb-6 max-w-lg mx-auto lg:mx-0 opacity-90">
-                  Sharpen your guitar skills with Fretszy’s interactive tools,
+                  Sharpen your guitar skills with Fretszy's interactive tools,
                   designed to help you master the fretboard, recognize notes
                   faster, build ear training, and track your progress easily.
                 </p>
@@ -119,16 +119,19 @@ const Hero = () => {
                   {/* Dynamic light beam */}
                   <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-32 w-64 h-64 bg-gradient-to-b from-white via-white to-transparent opacity-10 blur-md z-0 pointer-events-none"></div>
 
-                  {/* Main image */}
+                  {/* Main image - With explicit width and height */}
                   <img
                     src={heroImage}
                     alt="Guitarist playing with energy"
                     className="relative z-20 h-auto max-h-[500px] object-contain pointer-events-none"
+                    width="600" 
+                    height="500"
                     style={{
                       filter: "drop-shadow(0 0 15px rgba(255, 255, 255, 0.3))",
                       transform: "scale(1.25)",
                       clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 90%)",
                     }}
+                    fetchPriority="high"
                   />
 
                   {/* Color overlay effects */}
