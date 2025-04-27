@@ -1,12 +1,12 @@
 // src/Router.tsx
-import React, { lazy } from "react";
+import React, { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import { ProtectedRoute } from "./components/common/ProtectedRoute";
-import LazyComponent from "./components/common/LazyComponent";
+import LoadingSpinner from "./components/common/LoadingSpinner";
 
-// Only import Home directly since it's needed for the initial render
+// Keep Home imported directly for fast initial load
 // Lazy load all other components
 const About = lazy(() => import("./pages/About"));
 const Contact = lazy(() => import("./pages/Contact"));
@@ -22,7 +22,7 @@ const PentatonicShapeConnector = lazy(() => import('./games/pentatonic-shapes/Pe
 const TrainingTools = lazy(() => import("./pages/TrainingTools"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
-// Profile pages (already lazy loaded)
+// Already lazy loaded
 const Profile = lazy(() => import("./pages/Profile"));
 const Settings = lazy(() => import("./pages/Settings"));
 
@@ -30,8 +30,16 @@ const AppRoutes: React.FC = () => {
   return (
     <Routes>
       {/* Special case for Login/Register since they have their own layout */}
-      <Route path="login" element={<LazyComponent component={Login} />} />
-      <Route path="register" element={<LazyComponent component={Register} />} />
+      <Route path="login" element={
+        <Suspense fallback={<LoadingSpinner />}>
+          <Login />
+        </Suspense>
+      } />
+      <Route path="register" element={
+        <Suspense fallback={<LoadingSpinner />}>
+          <Register />
+        </Suspense>
+      } />
 
       {/* All other routes wrapped in Layout component */}
       <Route element={<Layout />}>
@@ -39,25 +47,67 @@ const AppRoutes: React.FC = () => {
         <Route index element={<Home />} />
         
         {/* All other routes are lazy loaded */}
-        <Route path="about" element={<LazyComponent component={About} />} />
-        <Route path="contact" element={<LazyComponent component={Contact} />} />
-        <Route path="faq" element={<LazyComponent component={FAQ} />} />
-        <Route path="privacy-policy" element={<LazyComponent component={PrivacyPolicy} />} />
-        <Route path="terms-of-service" element={<LazyComponent component={TermsOfService} />} />
-        <Route path="resources" element={<LazyComponent component={Resources} />} />
-        <Route path="landing" element={<LazyComponent component={Landing} />} />
-        <Route path="tools" element={<LazyComponent component={TrainingTools} />} />
+        <Route path="about" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <About />
+          </Suspense>
+        } />
+        <Route path="contact" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <Contact />
+          </Suspense>
+        } />
+        <Route path="faq" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <FAQ />
+          </Suspense>
+        } />
+        <Route path="privacy-policy" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <PrivacyPolicy />
+          </Suspense>
+        } />
+        <Route path="terms-of-service" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <TermsOfService />
+          </Suspense>
+        } />
+        <Route path="resources" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <Resources />
+          </Suspense>
+        } />
+        <Route path="landing" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <Landing />
+          </Suspense>
+        } />
+        <Route path="tools" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <TrainingTools />
+          </Suspense>
+        } />
         
         {/* Game routes */}
-        <Route path="games/pentatonic-shapes" element={<LazyComponent component={PentatonicShapeConnector} />} />
-        <Route path="games/fretboard" element={<LazyComponent component={FretboardGame} />} />
+        <Route path="games/pentatonic-shapes" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <PentatonicShapeConnector />
+          </Suspense>
+        } />
+        <Route path="games/fretboard" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <FretboardGame />
+          </Suspense>
+        } />
 
         {/* Protected routes - already using Suspense */}
         <Route
           path="profile"
           element={
             <ProtectedRoute>
-              <LazyComponent component={Profile} />
+              <Suspense fallback={<LoadingSpinner />}>
+                <Profile />
+              </Suspense>
             </ProtectedRoute>
           }
         />
@@ -66,13 +116,19 @@ const AppRoutes: React.FC = () => {
           path="settings"
           element={
             <ProtectedRoute>
-              <LazyComponent component={Settings} />
+              <Suspense fallback={<LoadingSpinner />}>
+                <Settings />
+              </Suspense>
             </ProtectedRoute>
           }
         />
 
         {/* Fallback route */}
-        <Route path="*" element={<LazyComponent component={NotFound} />} />
+        <Route path="*" element={
+          <Suspense fallback={<LoadingSpinner />}>
+            <NotFound />
+          </Suspense>
+        } />
       </Route>
     </Routes>
   );
