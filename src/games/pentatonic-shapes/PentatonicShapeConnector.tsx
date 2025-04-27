@@ -1,11 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { updateTitle } from "../../utils/SEOUtils";
+import { updateTitle, updateSEO } from "../../utils/SEOUtils";
 import ResponsiveFretboard from "../fretboard-notefinder/components/core/ResponsiveFretboard";
 import { generateMultiplePentatonicPatterns } from "./utils/PentatonicUtils";
 import { ScaleType, PatternPosition, NoteData } from "./types/PentatonicTypes";
 
 function PentatonicShapeConnector() {
+  useEffect(() => {
+    updateSEO(
+      "Pentatonic Scale Trainer - Practice Guitar Scales | Fretszy",
+      "Train your pentatonic scale shapes across the fretboard with Fretszy's interactive tool. Practice minor and major pentatonic patterns easily. Play with backing tracks!",
+      "https://fretszy.com/games/pentatonic-shapes"
+    );
+  }, []);
   // State for settings
   const [rootNote, setRootNote] = useState<string>("A");
   const [scaleType, setScaleType] = useState<ScaleType>("minor");

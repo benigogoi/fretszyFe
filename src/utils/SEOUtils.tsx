@@ -1,33 +1,32 @@
 // src/utils/SEOUtils.tsx
 
-// Remove the React import since we're not using any React features
-// import React from 'react';
-
-/**
- * Updates the document title
- * @param title The page-specific part of the title
- */
 export const updateTitle = (title: string) => {
-    document.title = `${title} | Fretszy - Guitar Fretboard Trainer`;
-};
-
-/**
- * Sets the meta description tag
- * @param description The description text
- */
-export const updateMetaDescription = (description: string) => {
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-        metaDescription.setAttribute('content', description);
+    document.title = `${title}`;
+  };
+  
+  export const updateMetaDescription = (description: string) => {
+    let meta = document.querySelector('meta[name="description"]');
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute('name', 'description');
+      document.head.appendChild(meta);
     }
-};
-
-/**
- * Updates both title and description
- */
-export const updateSEO = (title: string, description: string) => {
+    meta.setAttribute('content', description);
+  };
+  
+  export const updateCanonical = (canonicalUrl: string) => {
+    let link = document.querySelector('link[rel="canonical"]');
+    if (!link) {
+      link = document.createElement('link');
+      link.setAttribute('rel', 'canonical');
+      document.head.appendChild(link);
+    }
+    link.setAttribute('href', canonicalUrl);
+  };
+  
+  export const updateSEO = (title: string, description: string, canonicalUrl: string) => {
     updateTitle(title);
     updateMetaDescription(description);
-};
-
-// No need to export default in this utility file
+    updateCanonical(canonicalUrl);
+  };
+  

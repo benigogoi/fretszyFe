@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import confetti from "canvas-confetti";
 import { Link, useNavigate } from "react-router-dom";
-import { updateTitle } from "../../utils/SEOUtils";
+import { updateTitle, updateSEO } from "../../utils/SEOUtils";
 import ResponsiveFretboard from "./components/core/ResponsiveFretboard";
 import {
   generateAllFretboardNotes,
@@ -30,9 +30,17 @@ interface TargetNote {
 }
 
 function FretboardGame() {
+  useEffect(() => {
+    // Static SEO when page loads
+    updateSEO(
+      "Fretboard Note Finder - Train Guitar Notes Online | Fretszy",
+      "Master guitar fretboard notes with our Fretboard Note Finder! Play online games to memorize note positions and boost your guitar skills faster. Try now!",
+      "https://fretszy.com/games/fretboard"
+    );
+  }, []);
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
-  
+
   // Add a ref to track the current score
   const currentScoreRef = useRef(0);
 
@@ -76,7 +84,7 @@ function FretboardGame() {
     // Start the animation
     confettiAnimation();
   };
-  
+
   // Initialize Google Analytics and EmailJS on app load
   useEffect(() => {
     // Initialize Google Analytics
@@ -262,8 +270,10 @@ function FretboardGame() {
   // End the current game
   const endGame = async () => {
     const finalScore = currentScoreRef.current;
-    console.log(`GAME: endGame function called with final score: ${finalScore}`);
-    
+    console.log(
+      `GAME: endGame function called with final score: ${finalScore}`
+    );
+
     setGameActive(false);
     setTimerActive(false);
     setGameEnded(true);
@@ -273,10 +283,10 @@ function FretboardGame() {
     if (isAuthenticated && finalScore > 0) {
       try {
         console.log(`GAME: Attempting to save final score: ${finalScore}`);
-        
+
         // Get current best score before saving
         const currentBestScore = bestScore;
-        
+
         // Save the new score
         await saveGameScore(
           finalScore,
@@ -298,7 +308,7 @@ function FretboardGame() {
         console.log(`GAME: Updated best score: ${bestScoreData.score}`);
         setBestScore(bestScoreData.score || 0);
         setBestScoreDate(bestScoreData.date_achieved);
-        
+
         // Check if this was a new record and trigger confetti if so
         if (finalScore > currentBestScore) {
           console.log("GAME: New record achieved! Triggering confetti.");
@@ -306,7 +316,7 @@ function FretboardGame() {
         }
       } catch (error) {
         console.error("GAME ERROR: Error saving score:", error);
-        
+
         // If saving fails, still update UI if it's a new best score
         if (finalScore > bestScore) {
           setBestScore(finalScore);
@@ -323,10 +333,12 @@ function FretboardGame() {
 
   // Handle the manual end game button
   const handleEndGame = () => {
-    console.log(`GAME: handleEndGame called, current score: ${currentScoreRef.current}`);
+    console.log(
+      `GAME: handleEndGame called, current score: ${currentScoreRef.current}`
+    );
     endGame();
   };
-  
+
   // Reset to original state
   const handleReset = () => {
     setGameEnded(false);
@@ -346,7 +358,9 @@ function FretboardGame() {
       const newScore = score + 1;
       setScore(newScore);
       currentScoreRef.current = newScore; // Update the ref with current score
-      console.log(`Score updated: ${newScore} (ref: ${currentScoreRef.current})`);
+      console.log(
+        `Score updated: ${newScore} (ref: ${currentScoreRef.current})`
+      );
 
       // If this is a new high score, update best score immediately
       if (newScore > bestScore) {
@@ -577,7 +591,9 @@ function FretboardGame() {
                   </h2>
                   <p className="text-lg mb-2 text-gray-300">
                     Your final score:{" "}
-                    <span className="font-bold text-blue-400">{currentScoreRef.current}</span>
+                    <span className="font-bold text-blue-400">
+                      {currentScoreRef.current}
+                    </span>
                   </p>
 
                   {/* Show best score if the user is authenticated */}
