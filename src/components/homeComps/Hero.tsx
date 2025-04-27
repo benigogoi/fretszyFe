@@ -189,7 +189,7 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
               <div className="lg:w-2/5 px-4 lg:px-6 flex items-center justify-center relative z-10">
                 {/* Main guitarist image */}
                 <div className="relative">
-                  {/* Main image with preload hint */}
+                  {/* Main image with high priority */}
                   <OptimizedImage
                     src={heroImage}
                     alt="Guitarist playing with energy"
@@ -197,8 +197,6 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
                     width={600} 
                     height={500}
                     priority={true}
-                    fetchpriority="high"
-                    loading="eager"
                     style={{
                       clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 90%)",
                       transform: isMobile ? "scale(1.15)" : "scale(1.25)",
