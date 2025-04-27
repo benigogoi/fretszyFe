@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { updateTitle } from "../utils/SEOUtils";
 import noteFinderThumb from "../assets/noteFinderFeatureThumb.png";
-import pentaImg from "../assets/pentaThumb.png";
+import pentaImg from "../assets/pentaThumb.webp";
 
 // Import Components
 import Hero from "../components/homeComps/Hero";
