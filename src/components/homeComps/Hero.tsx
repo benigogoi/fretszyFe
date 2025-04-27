@@ -2,8 +2,8 @@
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { mainGradient } from "../../utils/GradientUtils";
-// Import OptimizedImage
-import OptimizedImage from "../common/OptimizedImage";
+// Don't import OptimizedImage since we're using native img tag
+// import OptimizedImage from "../common/OptimizedImage";
 
 // Import with named import to avoid pulling in unnecessary code
 import heroImage from "../../assets/hero.webp";
@@ -138,7 +138,9 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
 
     return () => {
       // Clean up
-      document.head.removeChild(preloadLink);
+      if (document.head.contains(preloadLink)) {
+        document.head.removeChild(preloadLink);
+      }
     };
   }, []);
 
