@@ -27,10 +27,12 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
   const buttonRef = useRef<HTMLAnchorElement>(null);
   
   // Track image loading state
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(true); // Changed to true by default to prevent loading indicator
   
   // Track if the viewport is mobile
   const [isMobile, setIsMobile] = useState(false);
+  // Track if decorative elements should be shown (delayed)
+  const [showDecorations, setShowDecorations] = useState(false);
 
   // Manage particles with React state - useMemo to avoid recreating on every render
   const particles = useMemo<Particle[]>(() => [
@@ -98,6 +100,11 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
     if (window.performance && window.performance.mark) {
       window.performance.mark('hero-image-loaded');
     }
+    
+    // Delay showing decorative elements
+    setTimeout(() => {
+      setShowDecorations(true);
+    }, 100);
   }, [onImageLoad]);
 
   // Add explicit touch handling to ensure mobile functionality
@@ -123,16 +130,9 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
   return (
     <>
       {/* Hero section - Full width with gradient background */}
-      <div className={`relative w-full overflow-hidden ${isLoaded ? 'opacity-100' : 'opacity-90'}`}
+      <div className="relative w-full overflow-hidden opacity-100"
            data-loaded={isLoaded.toString()}>
-        {/* Loading overlay - only shown while image is loading */}
-        {!isLoaded && (
-          <div className="absolute inset-0 z-30 flex items-center justify-center bg-black bg-opacity-30">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white"></div>
-          </div>
-        )}
-        
-        {/* Custom gradient background to match navbar */}
+        {/* Main gradient background (only essential for first render) */}
         <div
           className="absolute inset-0 z-0"
           style={{
@@ -142,26 +142,6 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
             backgroundRepeat: "no-repeat",
           }}
         ></div>
-
-        {/* Grid pattern overlay - only on desktop and when loaded to save resources */}
-        {isLoaded && !isMobile && (
-          <div
-            className="absolute inset-0 opacity-10 z-0"
-            style={{
-              backgroundImage:
-                "url(\"data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='1' cy='1' r='1'/%3E%3C/g%3E%3C/svg%3E\")",
-              backgroundSize: "20px 20px",
-            }}
-          ></div>
-        )}
-
-        {/* Spotlight effect - Only on desktop, using transform translate for better performance */}
-        {!isMobile && (
-          <>
-            <div className="absolute top-0 left-2/3 w-full h-96 bg-white opacity-10 blur-3xl rounded-full translate-y-[-6rem] z-0"></div>
-            <div className="absolute top-10 right-1/3 w-32 h-32 bg-blue-500 opacity-30 blur-3xl rounded-full z-0"></div>
-          </>
-        )}
 
         {/* Content */}
         <div className="relative z-10 py-24 w-full">
@@ -209,55 +189,45 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
               <div className="lg:w-2/5 px-4 lg:px-6 flex items-center justify-center relative z-10">
                 {/* Main guitarist image */}
                 <div className="relative">
-                  {/* Spotlight cone effect - Using transform for better performance, only on desktop */}
-                  {!isMobile && isLoaded && (
-                    <div
-                      className="absolute top-0 left-1/2 w-96 h-96 pointer-events-none"
-                      style={{
-                        background:
-                          "conic-gradient(from 90deg at 50% 0%, rgba(255, 255, 255, 0.3) 0deg, transparent 75deg, transparent 285deg, rgba(255, 255, 255, 0.3) 360deg)",
-                        borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
-                        transform: "translateX(-50%) translateY(-25%) scale(2)",
-                        opacity: "0.5",
-                        zIndex: "1",
-                      }}
-                    ></div>
-                  )}
-
-                  {/* Dynamic light beam - Using transform for better performance, only on desktop */}
-                  {!isMobile && isLoaded && (
-                    <div 
-                      className="absolute top-0 left-1/2 w-64 h-64 bg-gradient-to-b from-white via-white to-transparent opacity-10 blur-md z-0 pointer-events-none" 
-                      style={{ transform: "translateX(-50%) translateY(-8rem)" }}
-                    ></div>
-                  )}
-
-                  {/* Main image - Replace with OptimizedImage */}
+                  {/* Main image with preload hint */}
                   <OptimizedImage
                     src={heroImage}
                     alt="Guitarist playing with energy"
-                    className={`relative z-20 h-auto max-h-[500px] object-contain pointer-events-none transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+                    className="relative z-20 h-auto max-h-[500px] object-contain pointer-events-none opacity-100"
                     width={600} 
                     height={500}
                     priority={true}
+                    fetchpriority="high"
+                    loading="eager"
                     style={{
-                      filter: isMobile ? "none" : "drop-shadow(0 0 15px rgba(255, 255, 255, 0.3))",
-                      transform: isMobile ? "scale(1.15)" : "scale(1.25)",
                       clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 90%)",
+                      transform: isMobile ? "scale(1.15)" : "scale(1.25)",
                     }}
                     onLoad={handleImageLoad}
                   />
 
-                  {/* Color overlay effects - Using will-change to optimize rendering, only on desktop */}
-                  {!isMobile && isLoaded && (
+                  {/* Decorative elements only loaded after main content */}
+                  {showDecorations && !isMobile && (
                     <>
+                      {/* Spotlight cone effect */}
+                      <div
+                        className="absolute top-0 left-1/2 w-96 h-96 pointer-events-none"
+                        style={{
+                          background:
+                            "conic-gradient(from 90deg at 50% 0%, rgba(255, 255, 255, 0.3) 0deg, transparent 75deg, transparent 285deg, rgba(255, 255, 255, 0.3) 360deg)",
+                          borderRadius: "50% 50% 50% 50% / 60% 60% 40% 40%",
+                          transform: "translateX(-50%) translateY(-25%) scale(2)",
+                          opacity: "0.5",
+                          zIndex: "1",
+                        }}
+                      ></div>
+
+                      {/* Color overlay effects */}
                       <div 
                         className="absolute top-1/3 right-0 w-32 h-32 bg-red-500 rounded-full mix-blend-screen opacity-30 blur-2xl z-10 pointer-events-none"
-                        style={{ willChange: "transform, opacity" }}
                       ></div>
                       <div 
                         className="absolute bottom-1/4 left-0 w-24 h-24 bg-blue-500 rounded-full mix-blend-screen opacity-30 blur-2xl z-10 pointer-events-none"
-                        style={{ willChange: "transform, opacity" }}
                       ></div>
                     </>
                   )}
@@ -267,8 +237,8 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
           </div>
         </div>
 
-        {/* Animated particles - Only loaded on desktop and after image has loaded */}
-        {isLoaded && !isMobile && (
+        {/* Animated particles - Only loaded after main content has loaded */}
+        {showDecorations && !isMobile && (
           <div className="absolute inset-0 z-5 overflow-hidden pointer-events-none">
             {particles.map(particle => (
               <div 
@@ -280,7 +250,6 @@ const Hero: React.FC<HeroProps> = ({ onImageLoad }) => {
                   width: `${particle.size}px`, 
                   height: `${particle.size}px`,
                   animationDuration: particle.animationDuration,
-                  willChange: "opacity"
                 }}
               ></div>
             ))}
