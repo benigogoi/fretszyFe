@@ -3,7 +3,8 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/png" href="./src/assets/favicon.png" />
+  <!-- Fix asset paths - assuming favicon.png is in the public folder -->
+  <link rel="icon" type="image/png" href="/favicon.png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <!-- Mobile detection script - run before anything else -->
@@ -19,19 +20,15 @@
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
   <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
   <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
-  
+
   <!-- Font preloading for better performance -->
-  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" as="style" />
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'" />
-  
-  <!-- Preload critical resources -->
-  <link rel="preload" as="image" href="/src/assets/hero.webp" type="image/webp" fetchpriority="high" />
-  <link rel="preload" as="style" href="/src/index.css" />
-  <link rel="preload" as="script" href="/src/main.tsx" />
-  
-  <!-- Prefetch likely next pages -->
-  <link rel="prefetch" href="/tools" />
-  <link rel="prefetch" href="/games/fretboard" />
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    as="style" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    media="print" onload="this.media='all'" />
+
+  <!-- Remove source file preloads as they won't work in production -->
+  <!-- If you need to preload assets, they should be in the public folder -->
 
   <!-- Title and Meta Description -->
   <title>Fretszy | Master Guitar Fretboard, Scales, Rhythm & More</title>
@@ -67,7 +64,7 @@
   <!-- Google Funding Choices (optional, for Consent Message) -->
   <script defer src="https://fundingchoicesmessages.google.com/i/pub-8314798240062501?ers=1"></script>
   <script>
-    (function() {
+    (function () {
       // Keep the signalGooglefcPresent function since it might be required for Google's consent system
       function signalGooglefcPresent() {
         if (!window.frames['googlefcPresent']) {
@@ -98,9 +95,9 @@
     window.dataLayer = window.dataLayer || [];
     function gtag() { dataLayer.push(arguments); }
     // Only initialize analytics after user interaction rather than on page load
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       // Create a function that will be called on user interaction
-      const initAnalytics = function() {
+      const initAnalytics = function () {
         if (localStorage.getItem('analytics-consent') === 'true') {
           gtag('js', new Date());
           gtag('config', 'G-D37FBTN3TP', { 'send_page_view': false });
@@ -110,7 +107,7 @@
         document.removeEventListener('scroll', initAnalytics);
         document.removeEventListener('touchstart', initAnalytics);
       };
-      
+
       // Add event listeners for user interaction with once:true
       document.addEventListener('click', initAnalytics, { once: true });
       document.addEventListener('scroll', initAnalytics, { once: true });
@@ -140,13 +137,13 @@
       // Observe performance events if supported
       if (PerformanceObserver.supportedEntryTypes) {
         if (PerformanceObserver.supportedEntryTypes.includes('paint')) {
-          perfObserver.observe({type: 'paint', buffered: true});
+          perfObserver.observe({ type: 'paint', buffered: true });
         }
         if (PerformanceObserver.supportedEntryTypes.includes('largest-contentful-paint')) {
-          perfObserver.observe({type: 'largest-contentful-paint', buffered: true});
+          perfObserver.observe({ type: 'largest-contentful-paint', buffered: true });
         }
         if (PerformanceObserver.supportedEntryTypes.includes('first-input')) {
-          perfObserver.observe({type: 'first-input', buffered: true});
+          perfObserver.observe({ type: 'first-input', buffered: true });
         }
       }
     }
@@ -180,11 +177,13 @@
       color: #fff;
       text-rendering: optimizeSpeed;
     }
+
     #root {
       display: flex;
       flex-direction: column;
       min-height: 100vh;
     }
+
     /* Navbar styling for initial render */
     nav {
       position: fixed;
@@ -194,38 +193,50 @@
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
     }
+
     /* Hero section initial styles */
     .hero-container {
       position: relative;
       width: 100%;
       overflow: hidden;
     }
+
     .hero-content {
       position: relative;
       z-index: 10;
       padding: 6rem 1rem;
     }
+
     /* Loading animation */
     @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
     }
+
     .loading-spinner {
       display: inline-block;
       width: 2rem;
       height: 2rem;
-      border: 2px solid rgba(255,255,255,0.2);
+      border: 2px solid rgba(255, 255, 255, 0.2);
       border-top-color: white;
       border-radius: 50%;
       animation: spin 1s linear infinite;
     }
+
     /* Conditional styles for mobile devices */
     html.is-mobile .blur-effect {
       filter: none !important;
     }
+
     html.is-mobile .heavy-animation {
       display: none !important;
     }
+
     html.is-mobile .reduce-effects {
       opacity: 0.5 !important;
       filter: none !important;

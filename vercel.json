@@ -2,23 +2,36 @@
   "buildCommand": "node install-binaries.js && npm run build",
   "installCommand": "npm install --platform=linux --arch=x64 --force",
   "framework": "vite",
-  "redirects": [
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.fretszy.com"
-        }
-      ],
-      "destination": "https://fretszy.com/:path*",
-      "permanent": true
-    }
-  ],
   "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ],
+  "headers": [
     {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(?:ico|png|jpg|jpeg|gif|svg|webp|mp3|mp4|webm|ogg|wav)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)\\.(?:js|css)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     }
   ]
 }
