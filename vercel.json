@@ -5,9 +5,22 @@
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ],
+  "redirects": [
+    {
+      "source": "/:path(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.fretszy.com"
+        }
+      ],
+      "destination": "https://fretszy.com/:path",
+      "permanent": true
+    }
+  ],
   "headers": [
     {
-      "source": "/assets/(.*)",
+      "source": "/assets/:path*",
       "headers": [
         {
           "key": "Cache-Control",
@@ -16,7 +29,7 @@
       ]
     },
     {
-      "source": "/(.*)\\.(?:ico|png|jpg|jpeg|gif|svg|webp|mp3|mp4|webm|ogg|wav)",
+      "source": "/:path*.(?:ico|png|jpg|jpeg|gif|svg|webp|mp3|mp4|webm|ogg|wav)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -25,7 +38,7 @@
       ]
     },
     {
-      "source": "/(.*)\\.(?:js|css)",
+      "source": "/:path*.(?:js|css)",
       "headers": [
         {
           "key": "Cache-Control",
