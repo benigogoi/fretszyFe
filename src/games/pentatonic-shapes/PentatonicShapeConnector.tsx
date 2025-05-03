@@ -26,7 +26,8 @@ function PentatonicShapeConnector() {
   ]);
   const [shape5Position, setShape5Position] = useState<string>("low"); // "low" or "high"
   const [shape4Position, setShape4Position] = useState<string>("standard"); // "standard" or "lower"
-  const [fretLength, setFretLength] = useState<number>(17);
+  // Fix: Changed to remove the unused setter
+  const [fretLength] = useState<number>(17);
   const [displayNotes, setDisplayNotes] = useState<NoteData[]>([]);
 
   // Metronome state
