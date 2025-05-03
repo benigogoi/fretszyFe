@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import confetti from "canvas-confetti";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom"; // Removed useNavigate import
 import { updateTitle, updateSEO } from "../../utils/SEOUtils";
 import ResponsiveFretboard from "./components/core/ResponsiveFretboard";
 import {
@@ -39,7 +39,7 @@ function FretboardGame() {
       "https://fretszy.com/games/fretboard"
     );
   }, []);
-  const navigate = useNavigate();
+  // Removed navigate declaration
   const { isAuthenticated } = useAuth();
 
   // Add a ref to track the current score
@@ -416,18 +416,8 @@ function FretboardGame() {
     return `${mins}:${secs < 10 ? "0" + secs : secs}`;
   };
 
-  // String labels for the view
-  const getStringName = (num: number): string => {
-    const labels = [
-      "1st (high E)",
-      "2nd (B)",
-      "3rd (G)",
-      "4th (D)",
-      "5th (A)",
-      "6th (low E)",
-    ];
-    return labels[num - 1] || `${num}th`;
-  };
+  // Removed the unused getStringName function, or alternatively,
+  // We could use it in the component if needed
 
   return (
     <div className="pt-6 pb-8 bg-gray-900 text-white min-h-screen">
