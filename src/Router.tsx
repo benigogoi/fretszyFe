@@ -22,6 +22,10 @@ const NotFound = lazy(() => import("./pages/NotFound"));
 const FretboardGame = lazy(() => import("./games/fretboard-notefinder/FretboardGame"));
 const PentatonicShapeConnector = lazy(() => import('./games/pentatonic-shapes/PentatonicShapeConnector'));
 
+// Blog pages
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
+
 // Profile pages (protected)
 const Profile = lazy(() => import("./pages/Profile"));
 const Settings = lazy(() => import("./pages/Settings"));
@@ -72,6 +76,10 @@ const LazyPentatonicShapeConnector = createLazyComponent(PentatonicShapeConnecto
 const LazyProfile = createLazyComponent(Profile, "profile");
 const LazySettings = createLazyComponent(Settings, "settings");
 
+// Blog components
+const LazyBlog = createLazyComponent(Blog, "blog");
+const LazyBlogPost = createLazyComponent(BlogPost, "blog post");
+
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
@@ -90,6 +98,10 @@ const AppRoutes: React.FC = () => {
         <Route path="resources" element={<LazyResources />} />
         <Route path="landing" element={<LazyLanding />} />
         <Route path="tools" element={<LazyTrainingTools />} />
+        
+        {/* Blog routes */}
+        <Route path="blog" element={<LazyBlog />} />
+        <Route path="blog/:id" element={<LazyBlogPost />} />
         
         {/* Game routes */}
         <Route path="games/pentatonic-shapes" element={<LazyPentatonicShapeConnector />} />

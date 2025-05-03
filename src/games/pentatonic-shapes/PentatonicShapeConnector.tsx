@@ -4,6 +4,7 @@ import { updateTitle, updateSEO } from "../../utils/SEOUtils";
 import ResponsiveFretboard from "../fretboard-notefinder/components/core/ResponsiveFretboard";
 import { generateMultiplePentatonicPatterns } from "./utils/PentatonicUtils";
 import { ScaleType, PatternPosition, NoteData } from "./types/PentatonicTypes";
+import MobileBlocker from "../../components/common/MobileBlocker";
 
 function PentatonicShapeConnector() {
   useEffect(() => {
@@ -25,8 +26,7 @@ function PentatonicShapeConnector() {
   ]);
   const [shape5Position, setShape5Position] = useState<string>("low"); // "low" or "high"
   const [shape4Position, setShape4Position] = useState<string>("standard"); // "standard" or "lower"
-  const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [fretLength, setFretLength] = useState<number>(15);
+  const [fretLength, setFretLength] = useState<number>(17);
   const [displayNotes, setDisplayNotes] = useState<NoteData[]>([]);
 
   // Metronome state
@@ -34,18 +34,6 @@ function PentatonicShapeConnector() {
   const [tempo, setTempo] = useState<number>(100);
   const audioContextRef = useRef<AudioContext | null>(null);
   const metronomeIntervalRef = useRef<number | null>(null);
-
-  // Detect if mobile and set initial fret length
-  useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-      setFretLength(window.innerWidth < 768 ? 12 : 17); // Increased default fretboard length
-    };
-
-    checkIfMobile();
-    window.addEventListener("resize", checkIfMobile);
-    return () => window.removeEventListener("resize", checkIfMobile);
-  }, []);
 
   // Update title
   useEffect(() => {
@@ -104,14 +92,7 @@ function PentatonicShapeConnector() {
         0 // Start fret (auto position)
       );
 
-      // Dynamically set fretboard length based on highest fret in use
-      if (notes.length > 0) {
-        const highestFret = Math.max(...notes.map((note) => note.fretNumber));
-        // Add 2 frets of padding and ensure minimum of 15 or 12 (mobile) frets
-        const newFretLength = Math.max(highestFret + 2, isMobile ? 12 : 17);
-        setFretLength(newFretLength);
-      }
-
+      // Set the notes for display
       setDisplayNotes(notes);
     } catch (error) {
       console.error("Error generating pentatonic patterns:", error);
@@ -122,8 +103,7 @@ function PentatonicShapeConnector() {
     scaleType,
     selectedPatterns,
     shape5Position,
-    shape4Position,
-    isMobile,
+    shape4Position
   ]);
 
   // Metronome functionality
@@ -242,6 +222,9 @@ function PentatonicShapeConnector() {
 
   return (
     <div className="pt-6 pb-8 bg-gray-900 text-white min-h-screen">
+      {/* Add the mobile blocker component */}
+      <MobileBlocker toolName="Pentatonic Scale Shape Connector" />
+      
       <div className="container mx-auto px-4">
         <div className="mb-4">
           <Link
@@ -275,7 +258,7 @@ function PentatonicShapeConnector() {
             <ResponsiveFretboard
               numberOfFrets={fretLength}
               notes={displayNotes}
-              scale={isMobile ? 0.8 : 0.9}
+              scale={0.9}
             />
           ) : (
             <div className="p-8 text-center bg-gray-800 rounded-lg border border-gray-700">

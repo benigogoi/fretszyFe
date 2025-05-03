@@ -142,6 +142,9 @@ const Navbar: React.FC<NavbarProps> = () => {
                         <Link to="/about" className="text-white hover:text-opacity-80 px-3 py-2 text-sm font-medium transition-colors">
                             About
                         </Link>
+                        <Link to="/blog" className="text-white hover:text-opacity-80 px-3 py-2 text-sm font-medium transition-colors">
+                            Blog
+                        </Link>
                         
                         <Link to="/faq" className="text-white hover:text-opacity-80 px-3 py-2 text-sm font-medium transition-colors">
                             FAQ
@@ -224,7 +227,13 @@ const Navbar: React.FC<NavbarProps> = () => {
                     >
                         About
                     </Link>
-                    
+                    <Link
+                        to="/blog"
+                        className="text-gray-300 hover:bg-gray-800 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                        onClick={() => setIsMenuOpen(false)}
+                    >
+                        Blog
+                    </Link>
                     <Link
                         to="/faq"
                         className="text-gray-300 hover:bg-gray-800 hover:text-white block px-3 py-2 rounded-md text-base font-medium"

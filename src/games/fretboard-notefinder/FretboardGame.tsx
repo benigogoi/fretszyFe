@@ -14,6 +14,7 @@ import ReactGA from "react-ga4";
 import emailjs from "emailjs-com";
 import { useAuth } from "../../components/auth/useAuth";
 import { saveLastLocation } from "../../utils/authRedirectUtils";
+import MobileBlocker from "../../components/common/MobileBlocker";
 import {
   getBestScore,
   saveGameScore,
@@ -31,10 +32,10 @@ interface TargetNote {
 
 function FretboardGame() {
   useEffect(() => {
-    // Static SEO when page loads
+    // Enhanced SEO when page loads
     updateSEO(
-      "Fretboard Note Finder - Train Guitar Notes Online | Fretszy",
-      "Master guitar fretboard notes with our Fretboard Note Finder! Play online games to memorize note positions and boost your guitar skills faster. Try now!",
+      "Learn Guitar Fretboard Notes with This Interactive Trainer | Fretszy",
+      "Train your brain with this interactive Guitar Fretboard Note Recognition Game. Learn all fretboard notes fast and boost your playing skills. Perfect for beginners and pros.",
       "https://fretszy.com/games/fretboard"
     );
   }, []);
@@ -99,7 +100,6 @@ function FretboardGame() {
   const [fretLength, setFretLength] = useState(12);
   const [startString, setStartString] = useState(6); // Default to 6th string (low E)
   const [endString, setEndString] = useState(1); // Default to 1st string (high E)
-  const [isMobile, setIsMobile] = useState(false);
 
   // Game state
   const [gameActive, setGameActive] = useState(false);
@@ -117,16 +117,16 @@ function FretboardGame() {
   // Define number of frets to show
   const numberOfFrets = fretLength;
 
-  // Detect if mobile
+  // Update title based on game state
   useEffect(() => {
-    const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-
-    checkIfMobile();
-    window.addEventListener("resize", checkIfMobile);
-    return () => window.removeEventListener("resize", checkIfMobile);
-  }, []);
+    if (gameActive) {
+      updateTitle("Playing Note Recognition Game");
+    } else if (gameEnded) {
+      updateTitle(`Game Results: Score ${currentScoreRef.current}`);
+    } else {
+      updateTitle("Master the Guitar Fretboard");
+    }
+  }, [gameActive, gameEnded]);
 
   // Fetch best score when component mounts or game settings change
   // This will update when score changes during gameplay
@@ -183,17 +183,6 @@ function FretboardGame() {
     fetchInitialBestScore();
   }, [isAuthenticated, fretLength, startString, endString]);
 
-  // Update title based on game state
-  useEffect(() => {
-    if (gameActive) {
-      updateTitle("Playing Note Recognition Game");
-    } else if (gameEnded) {
-      updateTitle(`Game Results: Score ${currentScoreRef.current}`);
-    } else {
-      updateTitle("Master the Guitar Fretboard");
-    }
-  }, [gameActive, gameEnded]);
-
   // Timer effect
   useEffect(() => {
     let interval: number | null = null;
@@ -238,13 +227,6 @@ function FretboardGame() {
 
   // Start a new game
   const handleStartGame = () => {
-    if (!isAuthenticated) {
-      // Save current location and redirect to login
-      saveLastLocation(window.location.pathname);
-      navigate("/login");
-      return;
-    }
-
     console.log("Starting game with best score:", bestScore);
 
     // Set initial score to 0
@@ -279,8 +261,18 @@ function FretboardGame() {
     setGameEnded(true);
     setTargetNote(null);
 
+    // For non-authenticated users, we'll just show the score
+    if (!isAuthenticated) {
+      console.log(`GAME: User not logged in. Score ${finalScore} displayed but not saved.`);
+      // Still show the score and celebrate a good performance
+      if (finalScore > 10) {
+        triggerConfettiCelebration();
+      }
+      return;
+    }
+
     // Save the score if the user is authenticated and score is greater than 0
-    if (isAuthenticated && finalScore > 0) {
+    if (finalScore > 0) {
       try {
         console.log(`GAME: Attempting to save final score: ${finalScore}`);
 
@@ -325,9 +317,7 @@ function FretboardGame() {
         }
       }
     } else {
-      console.log(
-        `GAME: Score not saved: isAuthenticated=${isAuthenticated}, score=${finalScore}`
-      );
+      console.log(`GAME: Score not saved: score=${finalScore} is too low`);
     }
   };
 
@@ -393,22 +383,15 @@ function FretboardGame() {
       : []
     : generateAllFretboardNotes(6, numberOfFrets, 1);
 
-  // Use different fret length options based on mobile/desktop
-  const fretLengthOptions = isMobile
-    ? [
-        { value: 5, label: "5 Frets" },
-        { value: 7, label: "7 Frets" },
-        { value: 9, label: "9 Frets" },
-        { value: 12, label: "12 Frets" },
-      ]
-    : [
-        { value: 5, label: "5 Frets" },
-        { value: 7, label: "7 Frets" },
-        { value: 9, label: "9 Frets" },
-        { value: 12, label: "12 Frets" },
-        { value: 15, label: "15 Frets" },
-        { value: 24, label: "24 Frets" },
-      ];
+  // Use different fret length options based on desktop
+  const fretLengthOptions = [
+    { value: 5, label: "5 Frets" },
+    { value: 7, label: "7 Frets" },
+    { value: 9, label: "9 Frets" },
+    { value: 12, label: "12 Frets" },
+    { value: 15, label: "15 Frets" },
+    { value: 24, label: "24 Frets" },
+  ];
 
   // All possible notes for the note selector
   const allNotes = [
@@ -433,7 +416,7 @@ function FretboardGame() {
     return `${mins}:${secs < 10 ? "0" + secs : secs}`;
   };
 
-  // String labels for the simplified mobile view
+  // String labels for the view
   const getStringName = (num: number): string => {
     const labels = [
       "1st (high E)",
@@ -448,6 +431,9 @@ function FretboardGame() {
 
   return (
     <div className="pt-6 pb-8 bg-gray-900 text-white min-h-screen">
+      {/* Add the mobile blocker component */}
+      <MobileBlocker toolName="Fretboard Note Finder" />
+      
       <div className="container mx-auto px-4">
         <div className="mb-4">
           <Link
@@ -473,8 +459,22 @@ function FretboardGame() {
         </div>
 
         <h1 className="text-2xl md:text-3xl font-bold mb-3 text-center text-white">
-          Fretboard Note Finder
+          Learn Guitar Fretboard Notes with This Interactive Trainer
         </h1>
+        
+        {!gameActive && !gameEnded && (
+          <h2 className="text-xl md:text-2xl font-semibold mb-4 text-center text-blue-400">
+            Play the Note Recognition Game and Master the Fretboard Fast
+          </h2>
+        )}
+        
+        {!gameActive && !gameEnded && (
+          <div className="max-w-3xl mx-auto mb-6">
+            <p className="text-gray-300 text-center">
+              Struggling to memorize the guitar fretboard? Use Fretszy's Fretboard Note Finder — a free online tool to practice, visualize, and recognize notes across all strings and frets. Whether you're a beginner or an advanced player, this interactive fretboard trainer helps you master the neck, boost your note memory, and improve your soloing skills.
+            </p>
+          </div>
+        )}
 
         {gameActive ? (
           <div className="game-view-container h-[calc(100vh-200px)] flex flex-col">
@@ -513,7 +513,7 @@ function FretboardGame() {
                 gameActive={gameActive}
                 targetNote={targetNote}
                 guessResult={guessResult}
-                scale={isMobile ? 0.65 : 0.9}
+                scale={0.9}
               />
             </div>
 
@@ -545,7 +545,7 @@ function FretboardGame() {
           <div className="pt-6 pb-8">
             <div className="container mx-auto px-4">
               {!gameEnded && (
-                <div className="hidden md:block">
+                <div>
                   <p className="text-lg text-center mb-6 text-gray-300">
                     Test your fretboard skills with the Guitar Note Recognition
                     Game! Boost memory, improve playing, and track progress.
@@ -557,7 +557,7 @@ function FretboardGame() {
                 </div>
               )}
 
-              {/* Best Score Section - Always show for authenticated users with a best score */}
+              {/* Best Score Section - Only show for authenticated users with a best score */}
               {isAuthenticated && bestScore > 0 && !gameEnded && (
                 <div className="best-score mb-4 p-3 bg-gray-800 rounded-lg text-center border border-yellow-700 shadow-lg">
                   <h3 className="text-lg font-bold mb-1 text-yellow-400">
@@ -581,6 +581,15 @@ function FretboardGame() {
                       </div>
                     )}
                   </div>
+                </div>
+              )}
+              
+              {/* Login prompt for non-authenticated users in initial state */}
+              {!isAuthenticated && !gameEnded && (
+                <div className="mb-4 p-3 bg-gray-800 rounded-lg text-center border border-gray-700 shadow-lg">
+                  <p className="text-gray-300 mb-2">
+                    You can play without an account, but creating one lets you save scores and track progress!
+                  </p>
                 </div>
               )}
 
@@ -612,6 +621,31 @@ function FretboardGame() {
                       </p>
                     </div>
                   )}
+                  
+                  {/* Login prompts for non-authenticated users */}
+                  {!isAuthenticated && currentScoreRef.current > 0 && (
+                    <div className="mt-3 mb-3 pt-3 border-t border-gray-700">
+                      <p className="text-gray-300 mb-2">
+                        Create an account to save your scores and track your progress!
+                      </p>
+                      <div className="flex justify-center gap-3">
+                        <Link 
+                          to="/login" 
+                          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                          onClick={() => saveLastLocation(window.location.pathname)}
+                        >
+                          Login
+                        </Link>
+                        <Link 
+                          to="/signup" 
+                          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium"
+                          onClick={() => saveLastLocation(window.location.pathname)}
+                        >
+                          Sign Up
+                        </Link>
+                      </div>
+                    </div>
+                  )}
 
                   <Button
                     variant="primary"
@@ -619,7 +653,7 @@ function FretboardGame() {
                     onClick={handleReset}
                     className="mt-2"
                   >
-                    Reset Game
+                    Play Again
                   </Button>
                 </div>
               )}
@@ -635,161 +669,86 @@ function FretboardGame() {
                 />
               </div>
               {!gameEnded && (
-                <div className="relative">
-                  <div className="sm:hidden flex flex-col items-center">
-                    <div className="w-full max-w-md mb-20">
-                      <div className="flex justify-between items-center mb-2">
-                        <div className="w-1/2 pr-1">
-                          <label className="block text-sm font-medium mb-1 text-white">
-                            Fret Length
-                          </label>
-                          <Select
-                            id="fret-length"
-                            options={fretLengthOptions}
-                            value={fretLength}
-                            onChange={(e) =>
-                              setFretLength(Number(e.target.value))
-                            }
-                            variant="dark"
-                          />
-                        </div>
-                        <div className="w-1/2 pl-1">
-                          <label className="block text-sm font-medium mb-1 text-white">
-                            String Range
-                          </label>
-                          <div className="text-sm bg-gray-800 py-2 px-3 rounded-md border border-gray-700 text-white">
-                            {getStringName(startString)} →{" "}
-                            {getStringName(endString)}
+                <div className="flex flex-col md:flex-row flex-wrap items-center justify-center gap-4 md:gap-6">
+                  <div>
+                    <label className="block mb-2 font-medium text-white">
+                      Fret Length
+                    </label>
+                    <Select
+                      id="desktop-fret-length"
+                      options={fretLengthOptions}
+                      value={fretLength}
+                      onChange={(e) => setFretLength(Number(e.target.value))}
+                      variant="dark"
+                    />
+                  </div>
+                  <StringSelection
+                    startString={startString}
+                    endString={endString}
+                    onStartStringChange={setStartString}
+                    onEndStringChange={setEndString}
+                    variant="dark"
+                  />
+                  <Button
+                    variant="success"
+                    size="md"
+                    onClick={handleStartGame}
+                    className="mt-4 md:mt-0 md:ml-4"
+                  >
+                    Start Game
+                  </Button>
+                </div>
+              )}
+              
+              {!gameEnded && (
+                <>
+                  <div className="mt-16 max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700">
+                    <h2 className="text-2xl font-bold mb-4 text-white">
+                      Frequently Asked Questions
+                    </h2>
+                    <div className="space-y-6 text-gray-300">
+                      <div itemScope itemType="https://schema.org/Question">
+                        <h3 itemProp="name" className="text-lg font-bold text-white mb-2">How can I memorize notes on the guitar fretboard?</h3>
+                        <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                          <div itemProp="text">
+                            <p>Practice regularly using interactive tools like the Fretszy Note Finder. Start with one string at a time, use visual patterns, and test yourself daily with the note recognition game.</p>
                           </div>
                         </div>
                       </div>
-                      <div className="mb-3">
-                        <StringSelection
-                          startString={startString}
-                          endString={endString}
-                          onStartStringChange={setStartString}
-                          onEndStringChange={setEndString}
-                          variant="dark"
-                        />
+                      
+                      <div itemScope itemType="https://schema.org/Question">
+                        <h3 itemProp="name" className="text-lg font-bold text-white mb-2">Is this fretboard trainer good for beginners?</h3>
+                        <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                          <div itemProp="text">
+                            <p>Absolutely. Beginners can limit the fret range and focus on the 6th to 4th strings before progressing. The Fretszy Note Finder is designed to grow with you as your skills develop.</p>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div itemScope itemType="https://schema.org/Question">
+                        <h3 itemProp="name" className="text-lg font-bold text-white mb-2">How long does it take to learn all the notes on the fretboard?</h3>
+                        <div itemScope itemProp="acceptedAnswer" itemType="https://schema.org/Answer">
+                          <div itemProp="text">
+                            <p>With daily 10-minute sessions using Fretszy, most players start recognizing all notes within a few weeks. Consistent practice is key, and the game format makes learning more engaging and effective.</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
-                    <div className="fixed bottom-24 left-0 right-0 px-4 z-40 flex flex-col items-center">
-                      {/* Mobile Best Score Display */}
-                      {isAuthenticated && bestScore > 0 && (
-                        <div className="w-full max-w-md mb-2 bg-gray-800 px-3 py-2 rounded-md border border-yellow-700 flex justify-between items-center">
-                          <span className="text-yellow-400 font-bold">
-                            Best Score:
-                          </span>
-                          <span className="text-white font-bold">
-                            {bestScore}
-                          </span>
-                        </div>
-                      )}
-
-                      <button
-                        onClick={handleStartGame}
-                        className="w-full max-w-md bg-green-600 hover:bg-green-700 
-                                            text-white font-bold py-3 px-4 rounded-md shadow-lg 
-                                            flex items-center justify-center"
-                      >
-                        <span>Start Game</span>
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 ml-2"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z"
-                            clipRule="evenodd"
-                          />
+                  </div>
+                  
+                  <div className="mt-8 max-w-3xl mx-auto text-center">
+                    <div className="p-4 bg-gray-800 rounded-lg border border-gray-700">
+                      <h3 className="text-lg font-bold mb-2 text-white">Related Guitar Training Tools</h3>
+                      <p className="text-gray-300 mb-3">Take your guitar skills to the next level with these related training tools:</p>
+                      <Link to="/games/pentatonic-shapes" className="text-blue-400 hover:text-blue-300 flex items-center justify-center">
+                        <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
-                      </button>
+                        Try our Pentatonic Scale Trainer to connect scales across the fretboard!
+                      </Link>
                     </div>
                   </div>
-                  <div className="hidden sm:flex sm:flex-row flex-wrap items-center justify-center gap-4 sm:gap-6">
-                    <div>
-                      <label className="block mb-2 font-medium text-white">
-                        Fret Length
-                      </label>
-                      <Select
-                        id="desktop-fret-length"
-                        options={fretLengthOptions}
-                        value={fretLength}
-                        onChange={(e) => setFretLength(Number(e.target.value))}
-                        variant="dark"
-                      />
-                    </div>
-                    <StringSelection
-                      startString={startString}
-                      endString={endString}
-                      onStartStringChange={setStartString}
-                      onEndStringChange={setEndString}
-                      variant="dark"
-                    />
-                    <Button
-                      variant="success"
-                      size="md"
-                      onClick={handleStartGame}
-                      className="mt-4 sm:mt-0 sm:ml-4"
-                    >
-                      Start Game
-                    </Button>
-                  </div>
-                </div>
-              )}
-              {!gameEnded && (
-                <div className="md:hidden mt-8">
-                  <p className="text-base text-center text-gray-300">
-                    Test your fretboard skills with the Guitar Note Recognition
-                    Game! Boost memory, improve playing, and track progress.
-                    Perfect for all guitarists! Play now!
-                  </p>
-                </div>
-              )}
-              {!gameEnded && !isMobile && (
-                <div className="mt-16 max-w-3xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg border border-gray-700">
-                  <h2 className="text-2xl font-bold mb-4 text-white">
-                    How to Master the Guitar Fretboard
-                  </h2>
-                  <div className="space-y-4 text-gray-300">
-                    <p>
-                      <strong className="text-white">Step 1:</strong> Select
-                      your desired fret length and string range. Beginners may
-                      want to start with fewer frets and focus on strings 6-4.
-                    </p>
-                    <p>
-                      <strong className="text-white">Step 2:</strong> Start the
-                      game and identify the note shown on the fretboard by
-                      clicking the correct note name.
-                    </p>
-                    <p>
-                      <strong className="text-white">Step 3:</strong> Practice
-                      regularly to build your recognition speed. Try to beat
-                      your previous scores!
-                    </p>
-                    <p>
-                      The ability to quickly recognize notes on the fretboard is
-                      essential for improvisation, songwriting, and overall
-                      guitar mastery. Regular practice with Fretszy will help
-                      develop this crucial skill.
-                    </p>
-                  </div>
-                </div>
-              )}
-              {!gameEnded && isMobile && (
-                <div className="mt-8 bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-700">
-                  <h2 className="text-xl font-bold mb-2 text-white">
-                    How to Play
-                  </h2>
-                  <ul className="list-disc pl-5 space-y-1 text-sm text-gray-300">
-                    <li>Select fret length and strings</li>
-                    <li>Start the game to see a highlighted note</li>
-                    <li>Identify the correct note name</li>
-                    <li>Try to beat your best score!</li>
-                  </ul>
-                </div>
+                </>
               )}
               <script
                 type="application/ld+json"
@@ -798,10 +757,11 @@ function FretboardGame() {
             {
               "@context": "https://schema.org",
               "@type": "WebApplication",
-              "name": "Fretszy",
-              "description": "Interactive guitar fretboard trainer to help guitarists learn notes and master the fretboard",
+              "name": "Fretszy Guitar Fretboard Trainer",
+              "description": "Interactive guitar fretboard trainer to help guitarists learn notes and master the fretboard. Practice note recognition with our guitar learning game.",
               "applicationCategory": "EducationalApplication",
               "operatingSystem": "Any",
+              "keywords": "guitar fretboard notes, note recognition game, guitar note trainer, fretboard memorization, learn guitar notes",
               "offers": {
                 "@type": "Offer",
                 "price": "0",
@@ -809,11 +769,12 @@ function FretboardGame() {
               },
               "featureList": [
                 "Interactive fretboard visualization",
-                "Note recognition game",
+                "Guitar note recognition game",
                 "Customizable fretboard length",
                 "String selection options",
                 "Score tracking and personal bests",
-                "Responsive design for mobile and desktop"
+                "Fretboard memorization tool",
+                "Guitar learning software"
               ]
             }
           `,
