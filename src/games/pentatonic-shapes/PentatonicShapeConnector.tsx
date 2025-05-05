@@ -26,8 +26,8 @@ function PentatonicShapeConnector() {
   ]);
   const [shape5Position, setShape5Position] = useState<string>("low"); // "low" or "high"
   const [shape4Position, setShape4Position] = useState<string>("standard"); // "standard" or "lower"
-  // Fix: Changed to remove the unused setter
-  const [fretLength] = useState<number>(17);
+  // Fix: Changed from 17 to 22 to accommodate all patterns
+  const [fretLength] = useState<number>(22);
   const [displayNotes, setDisplayNotes] = useState<NoteData[]>([]);
 
   // Metronome state
@@ -48,15 +48,16 @@ function PentatonicShapeConnector() {
 
   // Check if the current key should hide the shape 5 position selection
   const hideShape5PositionSelect = () => {
-    return ["E", "F", "F#", "G"].includes(rootNote);
+    return ["D#", "E", "F", "F#", "G"].includes(rootNote);
   };
 
   // For keys F, F#, G, use high position as default for shape 5
   useEffect(() => {
+    // Only F, F#, G should use high position by default
     if (["F", "F#", "G"].includes(rootNote)) {
       setShape5Position("high");
-    } else if (rootNote === "E") {
-      // For E, keep low position
+    } else {
+      // All other keys (including D# and E) use low position
       setShape5Position("low");
     }
   }, [rootNote]);
@@ -378,7 +379,7 @@ function PentatonicShapeConnector() {
                       )}
                   </div>
 
-                  {/* Shape 5 with dropdown option (hidden for E, F, F#, G) */}
+                  {/* Shape 5 with dropdown option (hidden for D#, E, F, F#, G) */}
                   <div className="relative">
                     <button
                       className={`py-3 px-2 rounded font-medium transition-colors text-sm w-full ${
@@ -484,23 +485,23 @@ function PentatonicShapeConnector() {
               <li>
                 <strong>Shape 5:</strong> Position varies by key:
                 <ul className="list-disc pl-5 mt-1">
-                  {!["F", "F#", "G"].includes(rootNote) && (
+                  {(!["F", "F#", "G"].includes(rootNote)) && (
                     <li>
                       Low position (frets 2-5) with root on D string{" "}
-                      {["E", "F", "F#", "G"].includes(rootNote)
+                      {["D#", "E"].includes(rootNote)
                         ? "- Default for key " + rootNote
                         : ""}
                     </li>
                   )}
-                  {!hideShape5PositionSelect() ||
-                  ["F", "F#", "G"].includes(rootNote) ? (
+                  {(!hideShape5PositionSelect() ||
+                  ["F", "F#", "G"].includes(rootNote)) && (
                     <li>
                       High position (frets 14-17) with root on D string{" "}
                       {["F", "F#", "G"].includes(rootNote)
                         ? "- Default for key " + rootNote
                         : ""}
                     </li>
-                  ) : null}
+                  )}
                 </ul>
               </li>
             </ul>
